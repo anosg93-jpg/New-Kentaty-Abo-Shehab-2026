@@ -359,6 +359,7 @@
             margin-bottom: 12px;
             text-align: right;
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            position: relative;
         }
         body.dark-mode .order-log-card {
             background: #220e0e;
@@ -370,6 +371,7 @@
             border-bottom: 1px dashed var(--border-color);
             padding-bottom: 8px;
             margin-bottom: 8px;
+            padding-left: 30px; /* لترك مساحة لزر الحذف */
         }
         .order-log-title { font-weight: 900; color: var(--accent); font-size: 0.95rem; }
         .order-log-time { font-size: 0.75rem; color: var(--desc-text); font-weight: 700; }
@@ -377,6 +379,47 @@
         .order-log-items { background: rgba(0,0,0,0.03); padding: 8px 12px; border-radius: 12px; margin: 8px 0; }
         .order-log-item-line { font-size: 0.82rem; font-weight: 800; display: flex; justify-content: space-between; color: var(--main-text); margin-bottom: 4px; }
         .order-log-total { font-weight: 900; color: #15803d; font-size: 0.95rem; text-align: left; margin-top: 6px; }
+
+        /* زر حذف طلب فردي وزر حذف الكل */
+        .single-order-delete-btn {
+            position: absolute;
+            top: 12px;
+            left: 14px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .single-order-delete-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+        .clear-all-orders-btn {
+            width: 100%;
+            padding: 10px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1.5px dashed #ef4444;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.88rem;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        .clear-all-orders-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
 
         /* تصميم التوجل سويتش الأخضر */
         .switch {
@@ -706,7 +749,7 @@
     <!-- Firebase SDK (ES Module Integration) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, set, get, child, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, set, get, child, onValue, push, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyA1Sdds1f81pDtsDknTl73mfE_u5W_4TTc",
@@ -799,6 +842,28 @@
             }
         };
 
+        // دالة حذف طلب واحد من قاعدة البيانات
+        window.deleteSingleOrderFromFB = async (orderId) => {
+            try {
+                await remove(ref(db, `orders/${orderId}`));
+                return true;
+            } catch(e) {
+                console.error("خطأ أثناء حذف الطلب:", e);
+                return false;
+            }
+        };
+
+        // دالة حذف كل الطلبات من قاعدة البيانات
+        window.clearAllOrdersFromFB = async () => {
+            try {
+                await set(ref(db, 'orders'), null);
+                return true;
+            } catch(e) {
+                console.error("خطأ أثناء مسح الطلبات:", e);
+                return false;
+            }
+        };
+
         window.getAdminPass = () => currentAdminPassword;
         window.getStoreStatus = () => isStoreOpen;
         
@@ -870,7 +935,7 @@
     <script>
         // --- نظام التنبيهات الصوتية والإشعارات الكتابية المتقدم لأصحاب المطعم ---
         
-        // إعداد صوت جرس رنان قوي ومتقن (رن ترن) لمدة ثانيتين عبر Web Audio API
+        // إعداد نغمة جرس تنبيه قوية بصوت (ترررررن تررررررن) لمدة أطول ومميزة
         function playRingingSound() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -878,12 +943,12 @@
                 const ctx = new AudioContext();
 
                 const startTime = ctx.currentTime;
-                // إنشاء تتابعات جرس رنانة متتالية ناعمة ومسموعة جداً
+                // تتابعات نغمية قوية وحادة بصيغة جرس إنذار (تررررن تررررررن)
                 const pattern = [
-                    { time: 0.0, freq1: 932, freq2: 1396, dur: 0.35 },
-                    { time: 0.2, freq1: 1174, freq2: 1760, dur: 0.45 },
-                    { time: 0.8, freq1: 932, freq2: 1396, dur: 0.35 },
-                    { time: 1.0, freq1: 1174, freq2: 1760, dur: 0.60 }
+                    { time: 0.0, freq1: 880, freq2: 1320, dur: 0.5 },
+                    { time: 0.35, freq1: 1046, freq2: 1568, dur: 0.5 },
+                    { time: 1.0, freq1: 880, freq2: 1320, dur: 0.5 },
+                    { time: 1.35, freq1: 1046, freq2: 1568, dur: 0.8 }
                 ];
 
                 pattern.forEach(note => {
@@ -891,13 +956,13 @@
                     const osc2 = ctx.createOscillator();
                     const gain = ctx.createGain();
 
-                    osc1.type = 'sine';
+                    osc1.type = 'sawtooth';
                     osc2.type = 'triangle';
 
                     osc1.frequency.setValueAtTime(note.freq1, startTime + note.time);
                     osc2.frequency.setValueAtTime(note.freq2, startTime + note.time);
 
-                    gain.gain.setValueAtTime(0.7, startTime + note.time);
+                    gain.gain.setValueAtTime(0.8, startTime + note.time);
                     gain.gain.exponentialRampToValueAtTime(0.0001, startTime + note.time + note.dur);
 
                     osc1.connect(gain);
@@ -916,7 +981,7 @@
 
         // إرسال الإشعار الكتابي والصوتي المقنن والاحترافي جداً
         function triggerOwnerNotification(order) {
-            // 1. التنبيه الصوتي الجرس (رن ترن) القوي
+            // 1. التنبيه الصوتي الجرس (ترررررن تررررررن) القوي
             playRingingSound();
 
             // 2. إرسال الإشعار الكتابي (مرة واحدة فقط ودون ذكر اسم العميل أو السعر)
@@ -1060,7 +1125,10 @@
 
             const ordersArray = Object.keys(orders).map(key => ({ id: key, ...orders[key] })).reverse();
 
-            container.innerHTML = ordersArray.map(ord => {
+            // زر مسح كل الطلبات يظهر في الأعلى إذا وجدت طلبات
+            let htmlContent = `<button class="clear-all-orders-btn" onclick="confirmClearAllOrders()">🗑️ مسح كل الطلبات دفعة واحدة</button>`;
+
+            htmlContent += ordersArray.map(ord => {
                 const dateStr = ord.timestamp ? new Date(ord.timestamp).toLocaleString('ar-EG', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'short' }) : 'الآن';
                 const itemsList = Array.isArray(ord.items) ? ord.items.map(it => `
                     <div class="order-log-item-line">
@@ -1071,6 +1139,7 @@
 
                 return `
                 <div class="order-log-card">
+                    <button class="single-order-delete-btn" onclick="confirmDeleteSingleOrder('${ord.id}')" title="حذف هذا الطلب">✕</button>
                     <div class="order-log-header">
                         <span class="order-log-title">👤 ${ord.customerName || 'عميل'}</span>
                         <span class="order-log-time">🕒 ${dateStr}</span>
@@ -1084,8 +1153,38 @@
                     <div class="order-log-total">المجموع الإجمالي: ${ord.totalAmount || 0} ج.م</div>
                 </div>`;
             }).join('');
+
+            container.innerHTML = htmlContent;
         }
         window.renderOrdersLog = renderOrdersLog;
+
+        // دالة تأكيد حذف طلب واحد
+        window.confirmDeleteSingleOrder = async (orderId) => {
+            if (confirm('هل أنت متأكد من حذف هذا الطلب نهائياً؟')) {
+                if (window.deleteSingleOrderFromFB) {
+                    const success = await window.deleteSingleOrderFromFB(orderId);
+                    if (success) {
+                        // يتم التحديث فورياً عبر الـ onValue listener في فايربيز
+                    } else {
+                        alert('حدث خطأ أثناء محاولة الحذف.');
+                    }
+                }
+            }
+        };
+
+        // دالة تأكيد مسح جميع الطلبات
+        window.confirmClearAllOrders = async () => {
+            if (confirm('⚠️ تحذير: هل أنت متأكد من رغبتك في مسح جميع الطلبات المسجلة دفعة واحدة؟')) {
+                if (window.clearAllOrdersFromFB) {
+                    const success = await window.clearAllOrdersFromFB();
+                    if (success) {
+                        // يتم التحديث فورياً عبر الـ onValue listener في فايربيز
+                    } else {
+                        alert('حدث خطأ أثناء محاولة مسح الطلبات.');
+                    }
+                }
+            }
+        };
 
         async function toggleRestaurantStatus() {
             if (window.toggleStoreStatusInFB) {
