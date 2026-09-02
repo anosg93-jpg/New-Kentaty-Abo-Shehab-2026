@@ -231,7 +231,7 @@
         .admin-modal-card {
             background: #f8fafc;
             width: 92%;
-            max-width: 460px;
+            max-width: 440px;
             padding: 24px 18px;
             border-radius: 28px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.25);
@@ -294,6 +294,7 @@
             box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
         }
 
+        /* أزرار التشغيل والإيقاف الجماعية */
         .admin-action-row {
             display: flex;
             gap: 10px;
@@ -319,6 +320,7 @@
         .btn-toggle-all.disable { background: #ea580c; }
         .btn-toggle-all.disable:hover { background: #c2410c; }
 
+        /* قائمة الأصناف المتحكم بها بالتوجل */
         .admin-items-list {
             display: flex;
             flex-direction: column;
@@ -348,6 +350,32 @@
             text-align: right;
         }
 
+        /* تصميم كروت سجل الطلبات المنظم جداً */
+        .order-card-admin {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 14px;
+            text-align: right;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1.5px solid var(--border-color);
+        }
+        body.dark-mode .order-card-admin { background: #251010; }
+        .order-card-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px dashed var(--yellow-gold); padding-bottom: 8px; margin-bottom: 10px;
+        }
+        .order-card-title { font-weight: 900; font-size: 0.98rem; color: var(--accent); }
+        .order-card-time { font-size: 0.75rem; color: var(--desc-text); font-weight: 700; }
+        .order-card-info { font-size: 0.85rem; font-weight: 700; color: var(--main-text); margin-bottom: 4px; }
+        .order-card-items-box {
+            background: rgba(245, 158, 11, 0.08); padding: 10px; border-radius: 12px; margin: 8px 0; font-size: 0.82rem; font-weight: 700;
+        }
+        .order-card-total {
+            text-align: left; font-size: 1rem; font-weight: 900; color: #16a34a; margin-top: 6px;
+        }
+
+        /* تصميم التوجل سويتش */
         .switch {
             position: relative;
             display: inline-block;
@@ -380,40 +408,6 @@
             text-align: center; outline: none; transition: all 0.3s;
         }
         .admin-input-group input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(185, 28, 28, 0.15); }
-
-        /* --- تنسيق كروت سجل الطلبات المطور --- */
-        .order-card {
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 16px;
-            margin-bottom: 14px;
-            text-align: right;
-            border: 1.5px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-        body.dark-mode .order-card {
-            background: #251010;
-            border-color: rgba(245, 158, 11, 0.2);
-        }
-        .order-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px dashed #cbd5e1;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
-        }
-        .order-card-title { font-weight: 900; color: var(--accent); font-size: 1rem; }
-        .order-card-time { font-size: 0.75rem; color: var(--desc-text); font-weight: 700; }
-        .order-detail-line { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; color: var(--main-text); }
-        .order-items-box {
-            background: rgba(0,0,0,0.02);
-            padding: 10px;
-            border-radius: 12px;
-            margin: 10px 0;
-        }
-        body.dark-mode .order-items-box { background: rgba(255,255,255,0.03); }
-        .order-item-bullet { font-size: 0.82rem; font-weight: 700; color: var(--desc-text); margin-bottom: 3px; }
 
         /* --- مودال السلة --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: flex-end; }
@@ -565,6 +559,7 @@
             <a href="tel:01270127374" class="kayan-phone-call">📞 01270127374</a>
         </div>
 
+        <!-- زر إدارة المطعم أسفل التطبيق -->
         <button class="admin-footer-btn" onclick="toggleAdminModal(true)">
             🔒 إدارة المطعم
         </button>
@@ -587,10 +582,11 @@
                 <button class="submit-btn" style="margin-top: 10px;" onclick="checkAdminPassword()">دخول لوحة التحكم</button>
             </div>
 
-            <!-- لوحة التحكم -->
+            <!-- لوحة التحكم بعد الدخول -->
             <div id="adminDashboardView" style="display: none;">
                 <div class="admin-header-title">⚙️ واجهة الإدارة والتحكم</div>
 
+                <!-- التبويبات -->
                 <div class="admin-tabs-container">
                     <button class="admin-tab-btn active" id="tabStatusBtn" onclick="switchAdminTab('status')">
                         <span style="font-size: 1.1rem;">📦</span>
@@ -606,13 +602,15 @@
                     </button>
                 </div>
 
-                <!-- تبويب حالة الأصناف -->
+                <!-- تبويب حالة الأصناف وإدارة المطعم -->
                 <div id="adminStatusTab">
+                    <!-- حالة المطعم العامة -->
                     <div style="background: rgba(185, 28, 28, 0.05); padding: 12px; border-radius: 16px; margin-bottom: 15px; border: 1px dashed var(--accent);">
                         <p style="font-size: 0.88rem; font-weight: 800; margin-bottom: 8px;" id="restaurantStatusText">جاري جلب حالة المطعم...</p>
                         <button class="submit-btn" id="toggleStatusBtn" onclick="toggleRestaurantStatus()" style="background: #15803d; padding: 10px; font-size: 0.88rem;">تغيير حالة المطعم العامة</button>
                     </div>
 
+                    <!-- أزرار التشغيل والإيقاف الشاملة -->
                     <div class="admin-action-row">
                         <button class="btn-toggle-all enable" onclick="toggleAllItems(true)">
                             <span>✓</span> تشغيل جميع الأصناف
@@ -622,12 +620,13 @@
                         </button>
                     </div>
 
+                    <!-- قائمة الأصناف -->
                     <div class="admin-items-list" id="adminItemsContainer"></div>
                 </div>
 
-                <!-- تبويب سجل الطلبات المنظم والمربوط كلياً بـ Firebase -->
+                <!-- تبويب سجل الطلبات المحدث والمصمم بتنسيق عالي جداً -->
                 <div id="adminOrdersTab" style="display: none;">
-                    <div id="adminOrdersListContainer">
+                    <div class="admin-items-list" id="adminOrdersContainer">
                         <p style="font-size: 0.88rem; font-weight: 800; color: var(--desc-text); padding: 20px 0;">جاري تحميل سجل الطلبات...</p>
                     </div>
                 </div>
@@ -699,7 +698,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDK Integration -->
+    <!-- Firebase SDK (ES Module Integration) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, get, child, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -714,6 +713,7 @@
           appId: "1:306228660204:web:120f4c93569524242ea2c9"
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         window.firebaseApp = app;
@@ -723,7 +723,7 @@
         let isStoreOpen = true;
         let disabledItemsMap = {};
 
-        // قراءة وتحديث بيانات التحكم
+        // الاستماع المستمر لحالة المطعم وكلمة المرور والأصناف
         onValue(ref(db, 'settings'), (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
@@ -749,36 +749,39 @@
             }
         });
 
-        // الاستماع المباشر للطلبات لعرضها في سجل الطلبات وتفعيل الإشعار لمرة واحدة
+        // الاستماع الفوري للطلبات الجديدة في قاعدة البيانات وعرض سجل الطلبات
         let isInitialLoad = true;
+        let lastProcessedOrderKey = null;
+
         onValue(ref(db, 'orders'), (snapshot) => {
-            const ordersData = snapshot.exists() ? snapshot.val() : {};
-            window.allOrdersMap = ordersData;
-            
-            // تحديث واجهة سجل الطلبات
-            if (window.renderAdminOrders) {
-                window.renderAdminOrders();
-            }
-
-            if (isInitialLoad) {
-                isInitialLoad = false;
-                return;
-            }
-
             if (snapshot.exists()) {
-                const keys = Object.keys(ordersData);
-                const latestKey = keys[keys.length - 1];
-                const latestOrder = ordersData[latestKey];
+                const orders = snapshot.val();
+                window.allOrdersData = orders;
+                if (window.renderAdminOrders) window.renderAdminOrders();
 
-                // التحقق لمنع تكرار الإشعار
-                if (localStorage.getItem('isRestaurantOwner') === 'true' && window.lastNotifiedOrderId !== latestKey) {
-                    window.lastNotifiedOrderId = latestKey;
-                    triggerOwnerNotification();
+                const orderKeys = Object.keys(orders);
+                const latestKey = orderKeys[orderKeys.length - 1];
+
+                if (isInitialLoad) {
+                    isInitialLoad = false;
+                    lastProcessedOrderKey = latestKey;
+                    return;
                 }
+
+                if (latestKey !== lastProcessedOrderKey) {
+                    lastProcessedOrderKey = latestKey;
+                    if (localStorage.getItem('isRestaurantOwner') === 'true') {
+                        triggerOwnerNotification();
+                    }
+                }
+            } else {
+                window.allOrdersData = {};
+                if (window.renderAdminOrders) window.renderAdminOrders();
+                isInitialLoad = false;
             }
         });
 
-        // دالة رفع الطلب إلى قاعدة البيانات
+        // دالة إرسال طلب جديد لفايربيز
         window.pushOrderToFirebase = async (orderDetails) => {
             try {
                 const newOrderRef = push(ref(db, 'orders'));
@@ -800,21 +803,30 @@
             try {
                 await set(ref(db, 'settings/adminPassword'), newPass);
                 return true;
-            } catch(e) { return false; }
+            } catch(e) {
+                console.error(e);
+                return false;
+            }
         };
 
         window.toggleStoreStatusInFB = async () => {
             try {
                 await set(ref(db, 'settings/isOpen'), !isStoreOpen);
                 return true;
-            } catch(e) { return false; }
+            } catch(e) {
+                console.error(e);
+                return false;
+            }
         };
 
         window.saveItemStatusToFB = async (itemName, status) => {
             try {
                 await set(ref(db, `settings/disabledItems/${itemName}`), !status);
                 return true;
-            } catch(e) { return false; }
+            } catch(e) {
+                console.error(e);
+                return false;
+            }
         };
 
         window.toggleAllItemsInFB = async (enableAll) => {
@@ -827,7 +839,10 @@
                 }
                 await set(ref(db, 'settings/disabledItems'), newMap);
                 return true;
-            } catch(e) { return false; }
+            } catch(e) {
+                console.error(e);
+                return false;
+            }
         };
 
         function updateStatusUI(isOpen) {
@@ -850,63 +865,59 @@
     </script>
 
     <script>
-        // --- 1. جرس تنبيه قوي ورنين محاكي لجرس الهاتف المميز (ترن.. ترن..) ---
-        function playLoudRingingBell() {
+        // --- 1. نغمة جرس تنبيه قوية جداً ورنانة (رن.. ترن) ---
+        function playRingingSound() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 if (!AudioContext) return;
                 const ctx = new AudioContext();
 
-                // دالة لتوليد نغمة الرنين
-                function playRingPattern(startTime) {
-                    for (let i = 0; i < 12; i++) {
-                        const osc1 = ctx.createOscillator();
-                        const osc2 = ctx.createOscillator();
+                const now = ctx.currentTime;
+                // جرس تنبيه قوي نغمتين متناغمتين (Ring-Ring) بصوت مرتفع وواضح
+                const ringPattern = [
+                    { time: 0.0, freq1: 932, freq2: 1244, duration: 0.25 },
+                    { time: 0.3, freq1: 1046, freq2: 1396, duration: 0.35 },
+                    { time: 0.9, freq1: 932, freq2: 1244, duration: 0.25 },
+                    { time: 1.2, freq1: 1046, freq2: 1396, duration: 0.45 }
+                ];
+
+                ringPattern.forEach(note => {
+                    [note.freq1, note.freq2].forEach(freq => {
+                        const osc = ctx.createOscillator();
                         const gain = ctx.createGain();
 
-                        osc1.type = 'sine';
-                        osc2.type = 'triangle';
+                        osc.type = 'triangle'; // نغمة جرس معدنية واضحة
+                        osc.frequency.setValueAtTime(freq, now + note.time);
 
-                        // الترددات لنغمة الجرس الحادة والقوية
-                        osc1.frequency.setValueAtTime(1150, startTime + (i * 0.06));
-                        osc2.frequency.setValueAtTime(1380, startTime + (i * 0.06));
+                        gain.gain.setValueAtTime(0.8, now + note.time); // رفع مستوى الصوت
+                        gain.gain.exponentialRampToValueAtTime(0.0001, now + note.time + note.duration);
 
-                        gain.gain.setValueAtTime(0.8, startTime + (i * 0.06));
-                        gain.gain.exponentialRampToValueAtTime(0.001, startTime + (i * 0.06) + 0.05);
-
-                        osc1.connect(gain);
-                        osc2.connect(gain);
+                        osc.connect(gain);
                         gain.connect(ctx.destination);
 
-                        osc1.start(startTime + (i * 0.06));
-                        osc2.start(startTime + (i * 0.06));
-                        osc1.stop(startTime + (i * 0.06) + 0.05);
-                        osc2.stop(startTime + (i * 0.06) + 0.05);
-                    }
-                }
-
-                // تشغيل رنتين متتاليتين لمدة ثانيتين
-                const now = ctx.currentTime;
-                playRingPattern(now);
-                playRingPattern(now + 0.9);
+                        osc.start(now + note.time);
+                        osc.stop(now + note.time + note.duration);
+                    });
+                });
             } catch (err) {
-                console.log('عذراً، فشل تشغيل الصوت:', err);
+                console.log('عذراً، فشل تشغيل صوت الجرس:', err);
             }
         }
 
-        // --- 2. إطلاق الإشعار والصوت لمرة واحدة فقط وبدون بيانات العميل أو السعر ---
+        // --- 3. الإشعار الكتابي يظهر مرة واحدة فقط بدون اسم أو سعر ---
         function triggerOwnerNotification() {
-            // تشغيل الجرس الصوتي القوي
-            playLoudRingingBell();
+            // تشغيل صوت الجرس القوي
+            playRingingSound();
 
-            // إرسال الإشعار الكتابي (النص المحدد فقط بدون تكرار)
+            // إرسال الإشعار الكتابي مرة واحدة فقط بالنص المطلوب
             if ('Notification' in window && Notification.permission === 'granted') {
-                const title = 'تم طلب أوردر جديد من نيو كنتاكي';
+                const title = "تم طلب أوردر جديد من نيو كنتاكي";
                 const options = {
-                    body: 'يرجى مراجعة سجل الطلبات في لوحة التحكم',
-                    icon: 'images/logokfc.png',
-                    badge: 'images/logokfc.png',
-                    tag: 'new-kfc-order-notification', // استخدام Tag ثابت يضمن عدم تكرار الإشعار
+                    body: "اضغط لعرض تفاصيل الطلب داخل اللوحة",
+                    icon: "images/logokfc.png",
+                    badge: "images/logokfc.png",
+                    tag: "single-order-notification", // استخدام Tag ثابت يضمن وصوله مرة واحدة
+                    renotify: true,
                     requireInteraction: true,
                     vibrate: [300, 150, 300, 150, 300]
                 };
@@ -921,13 +932,14 @@
             }
         }
 
+        // طلب إذن الإشعارات
         function requestNotificationPermission() {
             if ('Notification' in window && Notification.permission !== 'granted') {
                 Notification.requestPermission();
             }
         }
 
-        // --- PWA & SW ---
+        // --- PWA & Service Worker ---
         let deferredPrompt;
         const banner = document.getElementById('pwa-install-banner');
         const installBtn = document.getElementById('pwa-install-btn');
@@ -971,7 +983,7 @@
 
         function closePWABanner() { banner.style.display = 'none'; }
 
-        // --- دوال لوحة التحكم وإدارة المطعم ---
+        // --- إدارة المطعم وسجل الطلبات المنظم ---
         function toggleAdminModal(show) {
             const modal = document.getElementById('adminModal');
             if (show) {
@@ -1008,50 +1020,51 @@
 
             document.getElementById('adminStatusTab').style.display = tab === 'status' ? 'block' : 'none';
             document.getElementById('adminOrdersTab').style.display = tab === 'orders' ? 'block' : 'none';
-            document.getElementById('adminPassTab').style.display = tab === 'pass' ? 'none';
+            document.getElementById('adminPassTab').style.display = tab === 'pass' ? 'block' : 'none';
 
             if (tab === 'orders') renderAdminOrders();
         }
 
-        // --- 3. عرض سجل الطلبات بشكل منظم ومنسق جداً ---
+        // --- 2. عرض سجل الطلبات بشكل منظم ومؤسس جداً ---
         function renderAdminOrders() {
-            const container = document.getElementById('adminOrdersListContainer');
+            const container = document.getElementById('adminOrdersContainer');
             if (!container) return;
 
-            const ordersMap = window.allOrdersMap || {};
-            const keys = Object.keys(ordersMap);
-
-            if (keys.length === 0) {
-                container.innerHTML = '<p style="font-size: 0.88rem; font-weight: 800; color: var(--desc-text); padding: 20px 0;">لا يوجد طلبات مسجلة حالياً.</p>';
+            const ordersData = window.allOrdersData;
+            if (!ordersData || Object.keys(ordersData).length === 0) {
+                container.innerHTML = `<p style="font-size: 0.88rem; font-weight: 800; color: var(--desc-text); padding: 20px 0;">لا توجد طلبات مسجلة حالياً.</p>`;
                 return;
             }
 
-            // عرض الطلبات من الأحدث إلى الأقدم
-            const sortedOrders = keys.map(k => ordersMap[k]).reverse();
+            const sortedKeys = Object.keys(ordersData).reverse();
 
-            container.innerHTML = sortedOrders.map(ord => {
-                const orderTime = ord.timestamp ? new Date(ord.timestamp).toLocaleString('ar-EG', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'numeric' }) : 'غير محدد';
-                const itemsList = Array.isArray(ord.items) ? ord.items : [];
+            container.innerHTML = sortedKeys.map((key, index) => {
+                const order = ordersData[key];
+                const dateObj = order.timestamp ? new Date(order.timestamp) : new Date();
+                const formattedTime = dateObj.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }) + ' | ' + dateObj.toLocaleDateString('ar-EG');
+
+                let itemsHtml = '';
+                if (order.items && Array.isArray(order.items)) {
+                    itemsHtml = order.items.map(it => `• ${it.name} (${it.price} ج.م)`).join('<br>');
+                }
 
                 return `
-                <div class="order-card">
+                <div class="order-card-admin">
                     <div class="order-card-header">
-                        <span class="order-card-title">📦 طلب جديد (${ord.orderType || 'دليفري'})</span>
-                        <span class="order-card-time">🕒 ${orderTime}</span>
+                        <span class="order-card-title">📦 طلب #${sortedKeys.length - index}</span>
+                        <span class="order-card-time">🕒 ${formattedTime}</span>
                     </div>
-                    <div class="order-detail-line">👤 <b>العميل:</b> ${ord.customerName || 'بدون اسم'}</div>
-                    <div class="order-detail-line">📞 <b>رقم الموبايل:</b> <a href="tel:${ord.phone}" style="color:var(--accent); text-decoration:none;">${ord.phone || '-'}</a></div>
-                    ${ord.area ? `<div class="order-detail-line">📍 <b>المنطقة:</b> ${ord.area}</div>` : ''}
-                    ${ord.address ? `<div class="order-detail-line">🏠 <b>العنوان:</b> ${ord.address}</div>` : ''}
+                    <div class="order-card-info">👤 <b>العميل:</b> ${order.customerName || 'بدون اسم'}</div>
+                    <div class="order-card-info">📞 <b>الموبايل:</b> <a href="tel:${order.phone}" style="color:var(--accent); text-decoration:none;">${order.phone || '-'}</a></div>
+                    <div class="order-card-info">📋 <b>نوع الطلب:</b> ${order.orderType || '-'}</div>
+                    ${order.area ? `<div class="order-card-info">📍 <b>منطقة التوصيل:</b> ${order.area}</div>` : ''}
+                    ${order.address ? `<div class="order-card-info">🏠 <b>العنوان:</b> ${order.address}</div>` : ''}
                     
-                    <div class="order-items-box">
-                        <div style="font-weight:900; font-size:0.85rem; margin-bottom:6px; color:var(--accent);">📑 تفاصيل الأصناف المطلوب:</div>
-                        ${itemsList.map(it => `<div class="order-item-bullet">• ${it.name} - ${it.price} ج.م</div>`).join('')}
+                    <div class="order-card-items-box">
+                        <b>📝 الأصناف المطلوبة:</b><br>${itemsHtml}
                     </div>
 
-                    <div style="text-align:left; font-weight:900; font-size:1.05rem; color:var(--accent); margin-top:8px;">
-                        المبلغ الإجمالي: ${ord.totalAmount || 0} ج.م
-                    </div>
+                    <div class="order-card-total">💰 المجموع الكلي: ${order.totalAmount || 0} ج.م</div>
                 </div>`;
             }).join('');
         }
@@ -1061,6 +1074,7 @@
             if (window.toggleStoreStatusInFB) {
                 const res = await window.toggleStoreStatusInFB();
                 if (res) alert('تم تحديث حالة المطعم بنجاح ✨');
+                else alert('حدث خطأ أثناء التحديث!');
             }
         }
 
@@ -1105,10 +1119,18 @@
             const confirmPass = document.getElementById('confirmPassInput').value.trim();
             const actualCurrPass = window.getAdminPass ? window.getAdminPass() : "123";
 
-            if (!currPass || !newPass || !confirmPass) return alert('⚠️ يرجى ملء جميع الحقول المطلوب');
-            if (currPass !== actualCurrPass) return alert('⚠️ كلمة المرور الحالية غير صحيحة!');
-            if (newPass !== confirmPass) return alert('⚠️ كلمة المرور الجديدة وتأكيدها غير متطابقين!');
-            if (newPass.length < 3) return alert('⚠️ يجب أن تكون كلمة المرور مكونة من 3 خانات على الأقل');
+            if (!currPass || !newPass || !confirmPass) {
+                return alert('⚠️ يرجى ملء جميع الحقول المطلوبة');
+            }
+            if (currPass !== actualCurrPass) {
+                return alert('⚠️ كلمة المرور الحالية غير صحيحة!');
+            }
+            if (newPass !== confirmPass) {
+                return alert('⚠️ كلمة المرور الجديدة وتأكيدها غير متطابقين!');
+            }
+            if (newPass.length < 3) {
+                return alert('⚠️ يجب أن تكون كلمة المرور مكونة من 3 خانات على الأقل');
+            }
 
             if (window.updateAdminPasswordInFB) {
                 const success = await window.updateAdminPasswordInFB(newPass);
@@ -1118,6 +1140,8 @@
                     document.getElementById('newPassInput').value = '';
                     document.getElementById('confirmPassInput').value = '';
                     switchAdminTab('status');
+                } else {
+                    alert('حدث خطأ أثناء الاتصال بقاعدة البيانات!');
                 }
             }
         }
@@ -1484,13 +1508,13 @@
             const typeLabel = selectedOrderType === 'delivery' ? '🛵 دليفري (توصيل)' : '🛍️ تيك اواي (استلام من المحل)';
             const grandTotal = selectedOrderType === 'delivery' ? (itemsSubtotal + selectedDeliveryFee) : itemsSubtotal;
 
-            // تسجيل فورى للطلب فى الـ Firebase لتخزينه فوراً فى سجل الطلبات وإطلاق الإشعار
+            // تسجيل الطلب في السجل داخل Firebase ليعرض تلقائياً في السجل والإشعارات
             if (window.pushOrderToFirebase) {
                 await window.pushOrderToFirebase({
                     customerName: n,
                     phone: p,
                     address: a,
-                    area: selectedAreaName,
+                    area: selectedOrderType === 'delivery' ? selectedAreaName : '',
                     orderType: typeLabel,
                     items: cart,
                     totalAmount: grandTotal
