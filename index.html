@@ -231,7 +231,7 @@
         .admin-modal-card {
             background: #f8fafc;
             width: 92%;
-            max-width: 440px;
+            max-width: 460px;
             padding: 24px 18px;
             border-radius: 28px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.25);
@@ -294,7 +294,6 @@
             box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
         }
 
-        /* أزرار التشغيل والإيقاف الجماعية */
         .admin-action-row {
             display: flex;
             gap: 10px;
@@ -320,7 +319,6 @@
         .btn-toggle-all.disable { background: #ea580c; }
         .btn-toggle-all.disable:hover { background: #c2410c; }
 
-        /* قائمة الأصناف مع التوجل سويتش */
         .admin-items-list {
             display: flex;
             flex-direction: column;
@@ -350,7 +348,6 @@
             text-align: right;
         }
 
-        /* تصميم التوجل سويتش الأخضر */
         .switch {
             position: relative;
             display: inline-block;
@@ -383,6 +380,40 @@
             text-align: center; outline: none; transition: all 0.3s;
         }
         .admin-input-group input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(185, 28, 28, 0.15); }
+
+        /* --- تنسيق كروت سجل الطلبات المطور --- */
+        .order-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 14px;
+            text-align: right;
+            border: 1.5px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .order-card {
+            background: #251010;
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+        .order-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .order-card-title { font-weight: 900; color: var(--accent); font-size: 1rem; }
+        .order-card-time { font-size: 0.75rem; color: var(--desc-text); font-weight: 700; }
+        .order-detail-line { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; color: var(--main-text); }
+        .order-items-box {
+            background: rgba(0,0,0,0.02);
+            padding: 10px;
+            border-radius: 12px;
+            margin: 10px 0;
+        }
+        body.dark-mode .order-items-box { background: rgba(255,255,255,0.03); }
+        .order-item-bullet { font-size: 0.82rem; font-weight: 700; color: var(--desc-text); margin-bottom: 3px; }
 
         /* --- مودال السلة --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: flex-end; }
@@ -534,13 +565,12 @@
             <a href="tel:01270127374" class="kayan-phone-call">📞 01270127374</a>
         </div>
 
-        <!-- زر إدارة المطعم أسفل التطبيق -->
         <button class="admin-footer-btn" onclick="toggleAdminModal(true)">
             🔒 إدارة المطعم
         </button>
     </footer>
 
-    <!-- مودال إدارة المطعم المطابق للصورة -->
+    <!-- مودال إدارة المطعم -->
     <div class="modal" id="adminModal" style="align-items: center;" onclick="if(event.target===this) toggleAdminModal(false)">
         <div class="admin-modal-card">
             <button onclick="toggleAdminModal(false)" style="position: absolute; top: 15px; left: 18px; background: none; border: none; font-size: 1.3rem; color: var(--desc-text); cursor: pointer;">✕</button>
@@ -557,11 +587,10 @@
                 <button class="submit-btn" style="margin-top: 10px;" onclick="checkAdminPassword()">دخول لوحة التحكم</button>
             </div>
 
-            <!-- لوحة التحكم بعد الدخول (مطابقة لتصميم الصورة تماماً) -->
+            <!-- لوحة التحكم -->
             <div id="adminDashboardView" style="display: none;">
                 <div class="admin-header-title">⚙️ واجهة الإدارة والتحكم</div>
 
-                <!-- التبويبات مع الأيقونات بأسلوب الصورة -->
                 <div class="admin-tabs-container">
                     <button class="admin-tab-btn active" id="tabStatusBtn" onclick="switchAdminTab('status')">
                         <span style="font-size: 1.1rem;">📦</span>
@@ -577,15 +606,13 @@
                     </button>
                 </div>
 
-                <!-- تبويب حالة الأصناف وإدارة المطعم -->
+                <!-- تبويب حالة الأصناف -->
                 <div id="adminStatusTab">
-                    <!-- حالة المطعم العامة -->
                     <div style="background: rgba(185, 28, 28, 0.05); padding: 12px; border-radius: 16px; margin-bottom: 15px; border: 1px dashed var(--accent);">
                         <p style="font-size: 0.88rem; font-weight: 800; margin-bottom: 8px;" id="restaurantStatusText">جاري جلب حالة المطعم...</p>
                         <button class="submit-btn" id="toggleStatusBtn" onclick="toggleRestaurantStatus()" style="background: #15803d; padding: 10px; font-size: 0.88rem;">تغيير حالة المطعم العامة</button>
                     </div>
 
-                    <!-- أزرار التشغيل والإيقاف الشاملة بالألوان المعتمدة -->
                     <div class="admin-action-row">
                         <button class="btn-toggle-all enable" onclick="toggleAllItems(true)">
                             <span>✓</span> تشغيل جميع الأصناف
@@ -595,15 +622,14 @@
                         </button>
                     </div>
 
-                    <!-- قائمة الأصناف المتحكم بها بالسويتش -->
-                    <div class="admin-items-list" id="adminItemsContainer">
-                        <!-- يتم التوليد بالديناميكية بواسطة JS -->
-                    </div>
+                    <div class="admin-items-list" id="adminItemsContainer"></div>
                 </div>
 
-                <!-- تبويب سجل الطلبات -->
+                <!-- تبويب سجل الطلبات المنظم والمربوط كلياً بـ Firebase -->
                 <div id="adminOrdersTab" style="display: none;">
-                    <p style="font-size: 0.88rem; font-weight: 800; color: var(--desc-text); padding: 20px 0;">لا يوجد طلبات مسجلة حالياً في الجلسة الحالية.</p>
+                    <div id="adminOrdersListContainer">
+                        <p style="font-size: 0.88rem; font-weight: 800; color: var(--desc-text); padding: 20px 0;">جاري تحميل سجل الطلبات...</p>
+                    </div>
                 </div>
 
                 <!-- تبويب تعديل كلمة المرور -->
@@ -673,7 +699,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDK (ES Module Integration) -->
+    <!-- Firebase SDK Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, get, child, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -688,20 +714,16 @@
           appId: "1:306228660204:web:120f4c93569524242ea2c9"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         window.firebaseApp = app;
         window.firebaseDb = db;
 
-        // --- تهيئة وقراءة بيانات إدارة المطعم من فايربيز ---
         let currentAdminPassword = "123";
         let isStoreOpen = true;
         let disabledItemsMap = {};
 
-        const dbRef = ref(db);
-
-        // الاستماع المستمر لحالة المطعم وكلمة المرور والأصناف
+        // قراءة وتحديث بيانات التحكم
         onValue(ref(db, 'settings'), (snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
@@ -727,26 +749,36 @@
             }
         });
 
-        // الاستماع الفوري للطلبات الجديدة في قاعدة البيانات
+        // الاستماع المباشر للطلبات لعرضها في سجل الطلبات وتفعيل الإشعار لمرة واحدة
         let isInitialLoad = true;
         onValue(ref(db, 'orders'), (snapshot) => {
+            const ordersData = snapshot.exists() ? snapshot.val() : {};
+            window.allOrdersMap = ordersData;
+            
+            // تحديث واجهة سجل الطلبات
+            if (window.renderAdminOrders) {
+                window.renderAdminOrders();
+            }
+
             if (isInitialLoad) {
                 isInitialLoad = false;
                 return;
             }
+
             if (snapshot.exists()) {
-                const orders = snapshot.val();
-                const lastKey = Object.keys(orders).pop();
-                const latestOrder = orders[lastKey];
-                
-                // التأكد أن الجهاز يعتبر صاحب مطعم لإطلاق الإشعار الصوتي والكتابي
-                if (localStorage.getItem('isRestaurantOwner') === 'true') {
-                    triggerOwnerNotification(latestOrder);
+                const keys = Object.keys(ordersData);
+                const latestKey = keys[keys.length - 1];
+                const latestOrder = ordersData[latestKey];
+
+                // التحقق لمنع تكرار الإشعار
+                if (localStorage.getItem('isRestaurantOwner') === 'true' && window.lastNotifiedOrderId !== latestKey) {
+                    window.lastNotifiedOrderId = latestKey;
+                    triggerOwnerNotification();
                 }
             }
         });
 
-        // دالة نشر طلب جديد إلى Firebase
+        // دالة رفع الطلب إلى قاعدة البيانات
         window.pushOrderToFirebase = async (orderDetails) => {
             try {
                 const newOrderRef = push(ref(db, 'orders'));
@@ -768,30 +800,21 @@
             try {
                 await set(ref(db, 'settings/adminPassword'), newPass);
                 return true;
-            } catch(e) {
-                console.error(e);
-                return false;
-            }
+            } catch(e) { return false; }
         };
 
         window.toggleStoreStatusInFB = async () => {
             try {
                 await set(ref(db, 'settings/isOpen'), !isStoreOpen);
                 return true;
-            } catch(e) {
-                console.error(e);
-                return false;
-            }
+            } catch(e) { return false; }
         };
 
         window.saveItemStatusToFB = async (itemName, status) => {
             try {
                 await set(ref(db, `settings/disabledItems/${itemName}`), !status);
                 return true;
-            } catch(e) {
-                console.error(e);
-                return false;
-            }
+            } catch(e) { return false; }
         };
 
         window.toggleAllItemsInFB = async (enableAll) => {
@@ -804,10 +827,7 @@
                 }
                 await set(ref(db, 'settings/disabledItems'), newMap);
                 return true;
-            } catch(e) {
-                console.error(e);
-                return false;
-            }
+            } catch(e) { return false; }
         };
 
         function updateStatusUI(isOpen) {
@@ -830,55 +850,65 @@
     </script>
 
     <script>
-        // --- نظام التنبيهات الصوتية والإشعارات الكتابية المتقدم لأصحاب المطعم ---
-        
-        // إعداد الصوت عبر Web Audio API للتوافق التام مع خلفيات الأجهزة
-        function playRingingSound() {
+        // --- 1. جرس تنبيه قوي ورنين محاكي لجرس الهاتف المميز (ترن.. ترن..) ---
+        function playLoudRingingBell() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 if (!AudioContext) return;
                 const ctx = new AudioContext();
 
-                const now = ctx.currentTime;
-                const duration = 1.8; // مدة التنبيه ثانيتان تقريباً
+                // دالة لتوليد نغمة الرنين
+                function playRingPattern(startTime) {
+                    for (let i = 0; i < 12; i++) {
+                        const osc1 = ctx.createOscillator();
+                        const osc2 = ctx.createOscillator();
+                        const gain = ctx.createGain();
 
-                // نغمتان متكررتان تشبهان جرس التنبيه Freq
-                for (let i = 0; i < 6; i++) {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
+                        osc1.type = 'sine';
+                        osc2.type = 'triangle';
 
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(i % 2 === 0 ? 880 : 1200, now + (i * 0.28));
+                        // الترددات لنغمة الجرس الحادة والقوية
+                        osc1.frequency.setValueAtTime(1150, startTime + (i * 0.06));
+                        osc2.frequency.setValueAtTime(1380, startTime + (i * 0.06));
 
-                    gain.gain.setValueAtTime(0.3, now + (i * 0.28));
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + (i * 0.28) + 0.22);
+                        gain.gain.setValueAtTime(0.8, startTime + (i * 0.06));
+                        gain.gain.exponentialRampToValueAtTime(0.001, startTime + (i * 0.06) + 0.05);
 
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
+                        osc1.connect(gain);
+                        osc2.connect(gain);
+                        gain.connect(ctx.destination);
 
-                    osc.start(now + (i * 0.28));
-                    osc.stop(now + (i * 0.28) + 0.25);
+                        osc1.start(startTime + (i * 0.06));
+                        osc2.start(startTime + (i * 0.06));
+                        osc1.stop(startTime + (i * 0.06) + 0.05);
+                        osc2.stop(startTime + (i * 0.06) + 0.05);
+                    }
                 }
+
+                // تشغيل رنتين متتاليتين لمدة ثانيتين
+                const now = ctx.currentTime;
+                playRingPattern(now);
+                playRingPattern(now + 0.9);
             } catch (err) {
                 console.log('عذراً، فشل تشغيل الصوت:', err);
             }
         }
 
-        // إرسال الإشعار الكتابي والصوتي
-        function triggerOwnerNotification(order) {
-            // 1. التنبيه الصوتي الجرس (متكرر لمدة ثانيتين)
-            playRingingSound();
+        // --- 2. إطلاق الإشعار والصوت لمرة واحدة فقط وبدون بيانات العميل أو السعر ---
+        function triggerOwnerNotification() {
+            // تشغيل الجرس الصوتي القوي
+            playLoudRingingBell();
 
-            // 2. إرسال الإشعار الكتابي من الموقع ذات نفسه
+            // إرسال الإشعار الكتابي (النص المحدد فقط بدون تكرار)
             if ('Notification' in window && Notification.permission === 'granted') {
-                const title = '🍗 تم طلب أوردر جديد - نيو كنتاكي';
+                const title = 'تم طلب أوردر جديد من نيو كنتاكي';
                 const options = {
-                    body: `العميل: ${order.customerName || 'عميل جديد'}\nالمبلغ الإجمالي: ${order.totalAmount || 0} ج.م`,
+                    body: 'يرجى مراجعة سجل الطلبات في لوحة التحكم',
                     icon: 'images/logokfc.png',
                     badge: 'images/logokfc.png',
-                    tag: 'new-order-' + Date.now(),
+                    tag: 'new-kfc-order-notification', // استخدام Tag ثابت يضمن عدم تكرار الإشعار
                     requireInteraction: true,
-                    vibrate: [200, 100, 200, 100, 200]
+                    vibrate: [300, 150, 300, 150, 300]
                 };
 
                 if (navigator.serviceWorker && navigator.serviceWorker.ready) {
@@ -891,14 +921,13 @@
             }
         }
 
-        // طلب إذن الإشعارات عند الدخول
         function requestNotificationPermission() {
             if ('Notification' in window && Notification.permission !== 'granted') {
                 Notification.requestPermission();
             }
         }
 
-        // --- تسجيل Service Worker وتهيئة PWA ---
+        // --- PWA & SW ---
         let deferredPrompt;
         const banner = document.getElementById('pwa-install-banner');
         const installBtn = document.getElementById('pwa-install-btn');
@@ -916,16 +945,11 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            if (!isStandalone) {
-                banner.style.display = 'flex';
-            }
+            if (!isStandalone) banner.style.display = 'flex';
         });
 
         window.addEventListener('DOMContentLoaded', () => {
-            if (isStandalone) {
-                banner.style.display = 'none';
-                return;
-            }
+            if (isStandalone) { banner.style.display = 'none'; return; }
             if (isIOS) {
                 bannerDesc.innerText = 'اضغط مشاركة ⎋ ثم "إضافة إلى الشاشة الرئيسية ➕"';
                 installBtn.innerText = 'طريقة التثبيت';
@@ -937,9 +961,7 @@
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        banner.style.display = 'none';
-                    }
+                    if (choiceResult.outcome === 'accepted') banner.style.display = 'none';
                     deferredPrompt = null;
                 });
             } else if (isIOS) {
@@ -947,21 +969,13 @@
             }
         }
 
-        function closePWABanner() {
-            banner.style.display = 'none';
-        }
+        function closePWABanner() { banner.style.display = 'none'; }
 
-        window.addEventListener('appinstalled', () => {
-            banner.style.display = 'none';
-            deferredPrompt = null;
-        });
-
-        // --- دوال إدارة المطعم المحدثة ---
+        // --- دوال لوحة التحكم وإدارة المطعم ---
         function toggleAdminModal(show) {
             const modal = document.getElementById('adminModal');
             if (show) {
                 modal.style.display = 'flex';
-                // دائما يطلب الباسورد لكل المرات لزيادة الأمان
                 document.getElementById('adminPassInput').value = '';
                 document.getElementById('adminLoginView').style.display = 'block';
                 document.getElementById('adminDashboardView').style.display = 'none';
@@ -975,13 +989,13 @@
             const correctPass = window.getAdminPass ? window.getAdminPass() : "123";
 
             if (enteredPass === correctPass) {
-                // حفظ اعتبار الجهاز كصاحب مطعم دائماً
                 localStorage.setItem('isRestaurantOwner', 'true');
                 requestNotificationPermission();
 
                 document.getElementById('adminLoginView').style.display = 'none';
                 document.getElementById('adminDashboardView').style.display = 'block';
                 renderAdminItems();
+                renderAdminOrders();
             } else {
                 alert('⚠️ كلمة المرور غير صحيحة!');
             }
@@ -994,14 +1008,59 @@
 
             document.getElementById('adminStatusTab').style.display = tab === 'status' ? 'block' : 'none';
             document.getElementById('adminOrdersTab').style.display = tab === 'orders' ? 'block' : 'none';
-            document.getElementById('adminPassTab').style.display = tab === 'pass' ? 'block' : 'none';
+            document.getElementById('adminPassTab').style.display = tab === 'pass' ? 'none';
+
+            if (tab === 'orders') renderAdminOrders();
         }
+
+        // --- 3. عرض سجل الطلبات بشكل منظم ومنسق جداً ---
+        function renderAdminOrders() {
+            const container = document.getElementById('adminOrdersListContainer');
+            if (!container) return;
+
+            const ordersMap = window.allOrdersMap || {};
+            const keys = Object.keys(ordersMap);
+
+            if (keys.length === 0) {
+                container.innerHTML = '<p style="font-size: 0.88rem; font-weight: 800; color: var(--desc-text); padding: 20px 0;">لا يوجد طلبات مسجلة حالياً.</p>';
+                return;
+            }
+
+            // عرض الطلبات من الأحدث إلى الأقدم
+            const sortedOrders = keys.map(k => ordersMap[k]).reverse();
+
+            container.innerHTML = sortedOrders.map(ord => {
+                const orderTime = ord.timestamp ? new Date(ord.timestamp).toLocaleString('ar-EG', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'numeric' }) : 'غير محدد';
+                const itemsList = Array.isArray(ord.items) ? ord.items : [];
+
+                return `
+                <div class="order-card">
+                    <div class="order-card-header">
+                        <span class="order-card-title">📦 طلب جديد (${ord.orderType || 'دليفري'})</span>
+                        <span class="order-card-time">🕒 ${orderTime}</span>
+                    </div>
+                    <div class="order-detail-line">👤 <b>العميل:</b> ${ord.customerName || 'بدون اسم'}</div>
+                    <div class="order-detail-line">📞 <b>رقم الموبايل:</b> <a href="tel:${ord.phone}" style="color:var(--accent); text-decoration:none;">${ord.phone || '-'}</a></div>
+                    ${ord.area ? `<div class="order-detail-line">📍 <b>المنطقة:</b> ${ord.area}</div>` : ''}
+                    ${ord.address ? `<div class="order-detail-line">🏠 <b>العنوان:</b> ${ord.address}</div>` : ''}
+                    
+                    <div class="order-items-box">
+                        <div style="font-weight:900; font-size:0.85rem; margin-bottom:6px; color:var(--accent);">📑 تفاصيل الأصناف المطلوب:</div>
+                        ${itemsList.map(it => `<div class="order-item-bullet">• ${it.name} - ${it.price} ج.م</div>`).join('')}
+                    </div>
+
+                    <div style="text-align:left; font-weight:900; font-size:1.05rem; color:var(--accent); margin-top:8px;">
+                        المبلغ الإجمالي: ${ord.totalAmount || 0} ج.م
+                    </div>
+                </div>`;
+            }).join('');
+        }
+        window.renderAdminOrders = renderAdminOrders;
 
         async function toggleRestaurantStatus() {
             if (window.toggleStoreStatusInFB) {
                 const res = await window.toggleStoreStatusInFB();
                 if (res) alert('تم تحديث حالة المطعم بنجاح ✨');
-                else alert('حدث خطأ أثناء التحديث!');
             }
         }
 
@@ -1011,7 +1070,7 @@
 
             const disabledMap = window.disabledItemsMap || {};
 
-            container.innerHTML = window.menuData.map((item, index) => {
+            container.innerHTML = window.menuData.map(item => {
                 const itemKey = item.name.replace(/\./g, '_');
                 const isEnabled = !disabledMap[itemKey];
 
@@ -1046,18 +1105,10 @@
             const confirmPass = document.getElementById('confirmPassInput').value.trim();
             const actualCurrPass = window.getAdminPass ? window.getAdminPass() : "123";
 
-            if (!currPass || !newPass || !confirmPass) {
-                return alert('⚠️ يرجى ملء جميع الحقول المطلوب');
-            }
-            if (currPass !== actualCurrPass) {
-                return alert('⚠️ كلمة المرور الحالية غير صحيحة!');
-            }
-            if (newPass !== confirmPass) {
-                return alert('⚠️ كلمة المرور الجديدة وتأكيدها غير متطابقين!');
-            }
-            if (newPass.length < 3) {
-                return alert('⚠️ يجب أن تكون كلمة المرور مكونة من 3 خانات على الأقل');
-            }
+            if (!currPass || !newPass || !confirmPass) return alert('⚠️ يرجى ملء جميع الحقول المطلوب');
+            if (currPass !== actualCurrPass) return alert('⚠️ كلمة المرور الحالية غير صحيحة!');
+            if (newPass !== confirmPass) return alert('⚠️ كلمة المرور الجديدة وتأكيدها غير متطابقين!');
+            if (newPass.length < 3) return alert('⚠️ يجب أن تكون كلمة المرور مكونة من 3 خانات على الأقل');
 
             if (window.updateAdminPasswordInFB) {
                 const success = await window.updateAdminPasswordInFB(newPass);
@@ -1067,8 +1118,6 @@
                     document.getElementById('newPassInput').value = '';
                     document.getElementById('confirmPassInput').value = '';
                     switchAdminTab('status');
-                } else {
-                    alert('حدث خطأ أثناء الاتصال بقاعدة البيانات!');
                 }
             }
         }
@@ -1195,7 +1244,6 @@
         function filterCat(cat, el) {
             currentSelectedCategory = cat;
             if(el) { document.querySelectorAll('.cat-item').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
-            
             refreshMenuList();
         }
 
@@ -1436,7 +1484,7 @@
             const typeLabel = selectedOrderType === 'delivery' ? '🛵 دليفري (توصيل)' : '🛍️ تيك اواي (استلام من المحل)';
             const grandTotal = selectedOrderType === 'delivery' ? (itemsSubtotal + selectedDeliveryFee) : itemsSubtotal;
 
-            // رفع الطلب إلكترونياً للفيربيز ليتلقى أصحاب المطعم الإشعارات الفورية
+            // تسجيل فورى للطلب فى الـ Firebase لتخزينه فوراً فى سجل الطلبات وإطلاق الإشعار
             if (window.pushOrderToFirebase) {
                 await window.pushOrderToFirebase({
                     customerName: n,
