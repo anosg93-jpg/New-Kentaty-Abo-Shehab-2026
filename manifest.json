@@ -1,21 +1,24 @@
 {
-  "short_name": "Menu",
-  "name": "Restaurant Digital Menu",
+  "name": "نيو كنتاكي وأبو شهاب السوري",
+  "short_name": "نيو كنتاكي",
+  "description": "المنيو الرسمي لمطعم نيو كنتاكي وأبو شهاب السوري بأبو قرقاص",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#b91c1c",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "/icons/icon-192.png",
+      "src": "images/logokfc.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "sizes": "192x192"
+      "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-512.png",
+      "src": "images/logokfc.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "any maskable"
     }
-  ],
-  "start_url": "/",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
 }

@@ -2,15 +2,17 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>نيو كنتاكي وأبو شهاب السوري | المنيو الرسمي</title>
     
+    <!-- PWA & Mobile Optimization -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#b91c1c">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="نيو كنتاكي وأبو شهاب السوري">
-    <link rel="apple-touch-icon" href="images/logokfc.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="نيو كنتاكي">
+    <link rel="apple-touch-icon" sizes="192x192" href="images/logokfc.png">
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -39,7 +41,13 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; transition: background 0.3s, color 0.3s; }
-        body { background-color: var(--bg); color: var(--main-text); line-height: 1.6; overflow-x: hidden; padding-bottom: 80px; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: var(--main-text); 
+            line-height: 1.6; 
+            padding-bottom: 80px; 
+        }
 
         /* --- شاشة الترحيب --- */
         #splash-screen {
@@ -50,7 +58,6 @@
         }
         .loader-content { text-align: center; padding: 0 20px; }
         
-        /* تعديل تصميم اللوجو المربع لشاشة الترحيب ليملأ الأيقونة بأسلوب رائع */
         .loader-logo-big {
             width: 140px; height: 140px; border-radius: 20px;
             margin-bottom: 15px; animation: pulse 1.5s infinite ease-in-out;
@@ -76,65 +83,83 @@
         @keyframes progress { from { width: 0; } to { width: 100%; } }
         .splash-hidden { transform: translateY(-100%); pointer-events: none; }
 
+        /* --- PWA Custom Install Banner --- */
+        #pwa-install-banner {
+            position: fixed; bottom: 15px; left: 15px; right: 15px;
+            background: var(--white);
+            border: 2px solid var(--yellow-gold);
+            border-radius: 20px; padding: 12px 16px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+            z-index: 10000; display: none; align-items: center; justify-content: space-between;
+            animation: slideUp 0.4s ease-out;
+        }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .pwa-banner-info { display: flex; align-items: center; gap: 12px; }
+        .pwa-banner-img { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; border: 1px solid var(--yellow-gold); }
+        .pwa-banner-text { display: flex; flex-direction: column; }
+        .pwa-banner-title { font-weight: 800; font-size: 0.88rem; color: var(--main-text); }
+        .pwa-banner-sub { font-size: 0.75rem; color: var(--desc-text); font-weight: 700; }
+        .pwa-banner-actions { display: flex; align-items: center; gap: 8px; }
+        .pwa-btn-install { background: var(--accent); color: #fff; border: none; padding: 8px 14px; border-radius: 12px; font-weight: 800; font-size: 0.82rem; cursor: pointer; }
+        .pwa-btn-close { background: transparent; border: none; font-size: 1.2rem; color: var(--desc-text); cursor: pointer; padding: 0 4px; }
+
+        /* --- الحاوية الثابتة للجزء العلوي بالكامل --- */
+        .sticky-top-section {
+            position: -webkit-sticky; position: sticky; top: 0; z-index: 1000;
+            background: var(--header-bg); box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
         /* --- الهيدر --- */
         header { 
-            background: var(--header-bg); 
-            display: flex; flex-direction: column; align-items: center;
-            padding: 15px 0 14px 0; border-bottom: 3px solid var(--yellow-gold);
+            background: var(--header-bg); display: flex; flex-direction: column; align-items: center;
+            padding: 8px 0 6px 0; border-bottom: 2px solid var(--yellow-gold);
         }
-        .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 8px; }
+        .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 2px; }
         
-        /* جعل لوجو الهيدر المربع يملأ الحاوية بالكامل وبشكل كريتيف */
         .header-logo-container { 
-            width: 105px; height: 105px; border-radius: 18px; background: white; padding: 0; 
-            box-shadow: 0 6px 20px rgba(185, 28, 28, 0.2); overflow: hidden;
-            border: 2.5px solid var(--yellow-gold); display: flex; align-items: center; justify-content: center;
+            width: 70px; height: 70px; border-radius: 14px; background: white; padding: 0; 
+            box-shadow: 0 4px 12px rgba(185, 28, 28, 0.15); overflow: hidden;
+            border: 2px solid var(--yellow-gold); display: flex; align-items: center; justify-content: center;
         }
         .header-logo { width: 100%; height: 100%; border-radius: 0; object-fit: cover; }
         
-        .theme-toggle { position: absolute; right: 20px; top: 0; width: 42px; height: 42px; background: var(--bg); border-radius: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; border: 1px solid var(--border-color); color: var(--main-text); }
-        .cart-trigger-container { position: absolute; left: 20px; top: 0; }
-        .cart-trigger { width: 42px; height: 42px; background: var(--bg); border-radius: 14px; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid var(--border-color); cursor: pointer; }
+        .theme-toggle { position: absolute; right: 15px; top: 2px; width: 36px; height: 36px; background: var(--bg); border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; border: 1px solid var(--border-color); color: var(--main-text); }
+        .cart-trigger-container { position: absolute; left: 15px; top: 2px; }
+        .cart-trigger { width: 36px; height: 36px; background: var(--bg); border-radius: 10px; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid var(--border-color); cursor: pointer; }
         .cart-trigger.shake { animation: cartShake 0.5s ease-in-out; }
         @keyframes cartShake { 0%, 100% { transform: scale(1) rotate(0deg); } 20%, 60% { transform: scale(1.15) rotate(-10deg); } 40%, 80% { transform: scale(1.15) rotate(10deg); } }
-        .badge { position: absolute; top: -5px; right: -5px; background: var(--accent); color: white; font-size: 10px; font-weight: 800; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; transform: scale(0); transition: 0.3s; }
+        .badge { position: absolute; top: -5px; right: -5px; background: var(--accent); color: white; font-size: 9px; font-weight: 800; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; transform: scale(0); transition: 0.3s; }
         .badge.show { transform: scale(1); }
         
         .header-title-text { 
-            font-size: 1.15rem; 
-            font-weight: 900; 
-            color: var(--accent); 
-            margin-top: 6px; 
-            margin-bottom: 14px; 
-            text-align: center; 
-            line-height: 1.35;
+            font-size: 0.95rem; font-weight: 900; color: var(--accent); 
+            margin-top: 4px; margin-bottom: 12px; text-align: center; line-height: 1.25;
         }
-        .header-title-text span { display: block; }
+        .header-title-text span { display: inline-block; }
 
         .header-bottom-addr { 
-            text-align: center; width: auto; max-width: 90%; 
-            padding: 5px 16px; 
-            background: rgba(185, 28, 28, 0.05);
-            border-radius: 30px; border: 1px dashed rgba(245, 158, 11, 0.5);
+            text-align: center; width: auto; max-width: 90%; padding: 2px 12px; 
+            background: rgba(185, 28, 28, 0.05); border-radius: 20px; border: 1px dashed rgba(245, 158, 11, 0.4);
             display: inline-flex; align-items: center; justify-content: center; gap: 4px;
         }
-        .branch-header-line { display: flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 800; color: var(--main-text); }
+        .branch-header-line { display: flex; align-items: center; gap: 4px; font-size: 0.7rem; font-weight: 800; color: var(--main-text); }
         .addr-tag { color: var(--accent); font-weight: 900; }
 
         /* --- أشرطة الأقسام --- */
         .category-nav { 
-            display: flex; overflow-x: auto; white-space: nowrap; padding: 14px 15px; gap: 24px; 
+            display: flex; overflow-x: auto; padding: 10px 16px; gap: 24px; 
             scrollbar-width: none; background: var(--glass); backdrop-filter: blur(20px); 
-            position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            will-change: transform; transform: translateZ(0);
+            border-bottom: 1px solid var(--border-color);
         }
         .category-nav::-webkit-scrollbar { display: none; }
-        .cat-item { display: flex; flex-direction: column; align-items: center; min-width: 85px; cursor: pointer; }
-        .cat-img-box { width: 55px; height: 55px; border-radius: 16px; background: #e5e5ea; overflow: hidden; border: 2.5px solid transparent; transition: 0.3s; }
+        .cat-item { display: flex; flex-direction: column; align-items: center; min-width: 85px; cursor: pointer; flex-shrink: 0; }
+        .cat-img-box { width: 48px; height: 48px; border-radius: 12px; background: #e5e5ea; overflow: hidden; border: 2px solid transparent; transition: 0.3s; }
         .cat-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .cat-item.active .cat-img-box { border-color: var(--accent); transform: scale(1.05); box-shadow: 0 4px 10px rgba(185, 28, 28, 0.25); }
-        .cat-item span { font-size: 0.78rem; font-weight: 800; color: var(--desc-text); margin-top: 6px; text-align: center; }
+        .cat-item.active .cat-img-box { border-color: var(--accent); transform: scale(1.05); box-shadow: 0 3px 8px rgba(185, 28, 28, 0.25); }
+        .cat-item span { 
+            font-size: 0.7rem; font-weight: 800; color: var(--desc-text); 
+            margin-top: 5px; text-align: center; white-space: normal; line-height: 1.25; width: 100%;
+        }
         .cat-item.active span { color: var(--accent); font-weight: 900; }
         
         .menu-list { padding: 15px; max-width: 600px; margin: auto; }
@@ -177,22 +202,195 @@
         .social-btn-link.wa-color { background: #25D366; }
         .social-btn-link svg { width: 24px; height: 24px; fill: white; }
         .footer-rights { font-size: 0.8rem; color: var(--main-text); font-weight: 700; margin-bottom: 5px; }
-        .dev-credit { font-size: 0.85rem; color: var(--desc-text); font-weight: 700; }
-        .dev-credit a { color: var(--accent); text-decoration: none; display: block; margin-top: 3px; }
+        .dev-credit { font-size: 0.85rem; color: var(--desc-text); font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .kayan-phone-call { display: inline-flex; align-items: center; gap: 4px; background: #2563eb; color: white !important; padding: 4px 12px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 0.8rem; margin-top: 4px; }
+
+        /* --- زر وتصميم إدارة المطعم --- */
+        .admin-footer-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding: 8px 18px;
+            background: rgba(185, 28, 28, 0.08);
+            border: 1.5px solid var(--accent);
+            border-radius: 12px;
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .admin-footer-btn:hover {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 12px rgba(185, 28, 28, 0.25);
+        }
+
+        /* --- مودال إدارة المطعم المطور --- */
+        .admin-modal-card {
+            background: #f8fafc;
+            width: 92%;
+            max-width: 440px;
+            padding: 24px 18px;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            border: 2px solid var(--yellow-gold);
+            text-align: center;
+            position: relative;
+            animation: zoomIn 0.3s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        body.dark-mode .admin-modal-card {
+            background: #1a0c0c;
+        }
+        @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .admin-header-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #d97706;
+            margin-bottom: 20px;
+        }
+
+        .admin-tabs-container {
+            display: flex;
+            gap: 6px;
+            background: #e2e8f0;
+            padding: 6px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+        body.dark-mode .admin-tabs-container {
+            background: #2a1212;
+        }
+
+        .admin-tab-btn {
+            flex: 1;
+            padding: 10px 4px;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        body.dark-mode .admin-tab-btn { color: #a1a1aa; }
+
+        .admin-tab-btn.active {
+            background: #ea580c;
+            color: white;
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+        }
+
+        /* أزرار التشغيل والإيقاف الجماعية */
+        .admin-action-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .btn-toggle-all {
+            flex: 1;
+            padding: 12px;
+            border-radius: 14px;
+            border: none;
+            font-weight: 800;
+            font-size: 0.88rem;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .btn-toggle-all.enable { background: #16a34a; }
+        .btn-toggle-all.enable:hover { background: #15803d; }
+        .btn-toggle-all.disable { background: #ea580c; }
+        .btn-toggle-all.disable:hover { background: #c2410c; }
+
+        /* قائمة الأصناف مع التوجل سويتش */
+        .admin-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-left: 4px;
+        }
+        .admin-item-row {
+            background: #ffffff;
+            padding: 12px 16px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #f1f5f9;
+        }
+        body.dark-mode .admin-item-row {
+            background: #251010;
+            border-color: rgba(255,255,255,0.05);
+        }
+        .admin-item-title {
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--main-text);
+            text-align: right;
+        }
+
+        /* تصميم التوجل سويتش الأخضر */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1;
+            transition: .3s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        input:checked + .slider { background-color: #16a34a; }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        .admin-input-group { position: relative; margin-bottom: 14px; }
+        .admin-input-group input {
+            width: 100%; padding: 14px 16px; border-radius: 14px;
+            border: 1.5px solid var(--border-color); background: var(--bg);
+            color: var(--main-text); font-size: 0.95rem; font-weight: 700;
+            text-align: center; outline: none; transition: all 0.3s;
+        }
+        .admin-input-group input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(185, 28, 28, 0.15); }
 
         /* --- مودال السلة --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: flex-end; }
         
         .modal-content { 
-            background: var(--white); 
-            width: 100%; 
-            max-width: 500px; 
-            padding: 25px; 
-            border-radius: 38px 38px 0 0; 
-            max-height: 90vh; 
-            overflow-y: auto; 
-            color: var(--main-text); 
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.15);
+            background: var(--white); width: 100%; max-width: 500px; padding: 25px; 
+            border-radius: 38px 38px 0 0; max-height: 90vh; overflow-y: auto; 
+            color: var(--main-text); box-shadow: 0 -10px 30px rgba(0,0,0,0.15);
         }
 
         .cart-item-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0,0,0,0.03); border-radius: 18px; margin-bottom: 10px; }
@@ -206,76 +404,31 @@
         .order-type-btn { flex: 1; border: none; background: transparent; padding: 12px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--desc-text); transition: all 0.3s; }
         .order-type-btn.active { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3); }
 
-        /* قسم عنوان التوصيل المنسدل المتطور */
         .delivery-area-section { margin-bottom: 15px; }
         
         .area-select-trigger {
-            width: 100%;
-            padding: 14px 16px;
+            width: 100%; padding: 14px 16px;
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(185, 28, 28, 0.05));
-            border: 1.5px solid rgba(245, 158, 11, 0.5);
-            border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            border: 1.5px solid rgba(245, 158, 11, 0.5); border-radius: 16px;
+            display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.3s ease;
         }
-        .area-select-trigger:hover {
-            border-color: var(--accent);
-            background: rgba(245, 158, 11, 0.18);
-        }
-        .area-trigger-text {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            color: var(--main-text);
-        }
-        .area-arrow {
-            font-size: 0.85rem;
-            color: var(--accent);
-            transition: transform 0.3s ease;
-        }
-        .area-arrow.open {
-            transform: rotate(180deg);
-        }
+        .area-select-trigger:hover { border-color: var(--accent); background: rgba(245, 158, 11, 0.18); }
+        .area-trigger-text { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 0.9rem; color: var(--main-text); }
+        .area-arrow { font-size: 0.85rem; color: var(--accent); transition: transform 0.3s ease; }
+        .area-arrow.open { transform: rotate(180deg); }
 
         .area-dropdown-box {
-            display: none;
-            margin-top: 10px;
-            background: var(--white);
-            border: 1.5px solid var(--border-color);
-            border-radius: 18px;
-            padding: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            animation: fadeIn 0.3s ease;
+            display: none; margin-top: 10px; background: var(--white);
+            border: 1.5px solid var(--border-color); border-radius: 18px; padding: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); animation: fadeIn 0.3s ease;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 
         .area-search-input { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg); color: var(--main-text); font-size: 0.85rem; margin-bottom: 10px; outline: none; }
         .area-search-input:focus { border-color: var(--accent); }
         
-        /* القائمة الطويلة التي تشمل كل العناوين */
-        .area-list-box { 
-            max-height: 240px; 
-            overflow-y: auto; 
-            border-radius: 12px; 
-            background: var(--white);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-        .area-item { 
-            padding: 12px 14px; 
-            font-size: 0.88rem; 
-            font-weight: 700; 
-            border-bottom: 1px solid rgba(0,0,0,0.04); 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            transition: background 0.2s, color 0.2s; 
-        }
+        .area-list-box { max-height: 240px; overflow-y: auto; border-radius: 12px; background: var(--white); border: 1px solid rgba(0,0,0,0.04); }
+        .area-item { padding: 12px 14px; font-size: 0.88rem; font-weight: 700; border-bottom: 1px solid rgba(0,0,0,0.04); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s, color 0.2s; }
         .area-item:last-child { border-bottom: none; }
         .area-item:hover { background: var(--yellow-light); color: var(--accent); }
         .area-item.selected { background: rgba(185, 28, 28, 0.08); color: var(--accent); font-weight: 900; }
@@ -305,36 +458,55 @@
         </div>
     </div>
 
-    <header>
-        <div class="header-top">
-            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
-
-            <div class="header-logo-container">
-                <img src="images/logokfc.png" class="header-logo" alt="نيو كنتاكي وأبو شهاب السوري">
+    <!-- PWA Install Prompt Banner -->
+    <div id="pwa-install-banner">
+        <div class="pwa-banner-info">
+            <img src="images/logokfc.png" class="pwa-banner-img" alt="Logo">
+            <div class="pwa-banner-text">
+                <span class="pwa-banner-title">تثبيت تطبيق نيو كنتاكي</span>
+                <span class="pwa-banner-sub" id="pwa-banner-desc">لتجربة طلب أسرع وأسهل بدون متصفح</span>
             </div>
+        </div>
+        <div class="pwa-banner-actions">
+            <button class="pwa-btn-install" id="pwa-install-btn" onclick="executeInstallPWA()">تثبيت الآن</button>
+            <button class="pwa-btn-close" onclick="closePWABanner()">✕</button>
+        </div>
+    </div>
 
-            <div class="cart-trigger-container">
-                <div class="cart-trigger" onclick="toggleCart(true)" id="cartBtn">
-                    <span class="badge" id="cartBadge">0</span>
-                    <span style="font-size: 1.3rem;">🛒</span>
+    <!-- الجزء العلوي الثابت -->
+    <div class="sticky-top-section">
+        <header>
+            <div class="header-top">
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="تغيير المظهر">🌙</button>
+
+                <div class="header-logo-container">
+                    <img src="images/logokfc.png" class="header-logo" alt="نيو كنتاكي وأبو شهاب السوري">
+                </div>
+
+                <div class="cart-trigger-container">
+                    <div class="cart-trigger" onclick="toggleCart(true)" id="cartBtn">
+                        <span class="badge" id="cartBadge">0</span>
+                        <span style="font-size: 1.1rem;">🛒</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <h1 class="header-title-text">
-            <span>نيو كنتاكي</span>
-            <span>& أبو شهاب السوري</span>
-        </h1>
+            <h1 class="header-title-text">
+                <span>نيو كنتاكي</span>
+                <span>& أبو شهاب السوري</span>
+            </h1>
 
-        <div class="header-bottom-addr">
-            <div class="branch-header-line">
-                <span class="addr-tag">📍</span>
-                <span>أبو قرقاص - ش الشهداء (بجوار مسجد الشهداء)</span>
+            <div class="header-bottom-addr">
+                <div class="branch-header-line">
+                    <span class="addr-tag">📍</span>
+                    <span>أبو قرقاص - ش الشهداء (بجوار مسجد الشهداء)</span>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <div class="category-nav" id="catNav"></div>
+        <div class="category-nav" id="catNav"></div>
+    </div>
+
     <div id="menuList" class="menu-list"></div>
 
     <footer class="restaurant-footer">
@@ -348,23 +520,111 @@
         </div>
 
         <div class="social-icons-box">
-            <a href="https://www.facebook.com/share/1ZmqhS666v/" target="_blank" class="social-btn-link fb-color">
+            <a href="https://www.facebook.com/share/1ZmqhS666v/" target="_blank" rel="noopener" class="social-btn-link fb-color" aria-label="صفحة الفيسبوك">
                 <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
-            <a href="https://wa.me/201119430926" target="_blank" class="social-btn-link wa-color">
+            <a href="https://wa.me/201119430926" target="_blank" rel="noopener" class="social-btn-link wa-color" aria-label="مراسلة الواتساب">
                 <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.963C16.528 2.022 14.056.996 11.43.996c-5.442 0-9.87 4.372-9.874 9.799-.001 1.742.483 3.442 1.398 4.914l-.995 3.637 3.737-.971zm10.873-6.53c-.293-.146-1.734-.852-2.001-.95-.267-.099-.463-.146-.659.146-.195.293-.759.95-.93 1.146-.171.195-.341.219-.634.073-.293-.146-1.239-.456-2.361-1.456-.872-.777-1.46-1.738-1.632-2.031-.171-.293-.018-.452.129-.597.132-.131.293-.341.44-.512.146-.171.195-.293.293-.488.098-.195.049-.366-.024-.512-.074-.146-.659-1.586-.902-2.17-.238-.574-.479-.496-.659-.506-.171-.008-.366-.01-.562-.01-.195 0-.513.073-.781.366-.269.293-1.025 1.001-1.025 2.441 0 1.439 1.049 2.83 1.196 3.025.146.195 2.064 3.15 5.003 4.415.699.301 1.244.482 1.67.618.703.223 1.344.192 1.85.117.564-.083 1.734-.707 1.978-1.39.244-.683.244-1.269.171-1.39-.073-.122-.269-.195-.562-.342z"/></svg>
             </a>
         </div>
 
         <p class="footer-rights">جميع الحقوق محفوظة لـ نيو كنتاكي وأبو شهاب السوري 2026 ©</p>
         <div class="dev-credit">
-            designed by / كيان للتسويق الالكتروني
-            <a href="tel:01270127374">📞 01270127374</a>
+            <span>تم التصميم بواسطة / كيان للتسويق الإلكتروني</span>
+            <a href="tel:01270127374" class="kayan-phone-call">📞 01270127374</a>
         </div>
+
+        <!-- زر إدارة المطعم أسفل التطبيق -->
+        <button class="admin-footer-btn" onclick="toggleAdminModal(true)">
+            🔒 إدارة المطعم
+        </button>
     </footer>
 
+    <!-- مودال إدارة المطعم المطابق للصورة -->
+    <div class="modal" id="adminModal" style="align-items: center;" onclick="if(event.target===this) toggleAdminModal(false)">
+        <div class="admin-modal-card">
+            <button onclick="toggleAdminModal(false)" style="position: absolute; top: 15px; left: 18px; background: none; border: none; font-size: 1.3rem; color: var(--desc-text); cursor: pointer;">✕</button>
+
+            <!-- شاشة تسجيل الدخول -->
+            <div id="adminLoginView">
+                <div class="admin-header-title">⚙️ واجهة الإدارة والتحكم</div>
+                <p style="font-size: 0.85rem; color: var(--desc-text); margin-bottom: 20px; font-weight: 700;">يرجى إدخال كلمة المرور للمتابعة</p>
+
+                <div class="admin-input-group">
+                    <input type="password" id="adminPassInput" placeholder="••••••••" maxlength="20">
+                </div>
+
+                <button class="submit-btn" style="margin-top: 10px;" onclick="checkAdminPassword()">دخول لوحة التحكم</button>
+            </div>
+
+            <!-- لوحة التحكم بعد الدخول (مطابقة لتصميم الصورة تماماً) -->
+            <div id="adminDashboardView" style="display: none;">
+                <div class="admin-header-title">⚙️ واجهة الإدارة والتحكم</div>
+
+                <!-- التبويبات مع الأيقونات بأسلوب الصورة -->
+                <div class="admin-tabs-container">
+                    <button class="admin-tab-btn active" id="tabStatusBtn" onclick="switchAdminTab('status')">
+                        <span style="font-size: 1.1rem;">📦</span>
+                        <span>حالة الأصناف</span>
+                    </button>
+                    <button class="admin-tab-btn" id="tabOrdersBtn" onclick="switchAdminTab('orders')">
+                        <span style="font-size: 1.1rem;">📜</span>
+                        <span>سجل الطلبات</span>
+                    </button>
+                    <button class="admin-tab-btn" id="tabPassBtn" onclick="switchAdminTab('pass')">
+                        <span style="font-size: 1.1rem;">🔑</span>
+                        <span>كلمة السر</span>
+                    </button>
+                </div>
+
+                <!-- تبويب حالة الأصناف وإدارة المطعم -->
+                <div id="adminStatusTab">
+                    <!-- حالة المطعم العامة -->
+                    <div style="background: rgba(185, 28, 28, 0.05); padding: 12px; border-radius: 16px; margin-bottom: 15px; border: 1px dashed var(--accent);">
+                        <p style="font-size: 0.88rem; font-weight: 800; margin-bottom: 8px;" id="restaurantStatusText">جاري جلب حالة المطعم...</p>
+                        <button class="submit-btn" id="toggleStatusBtn" onclick="toggleRestaurantStatus()" style="background: #15803d; padding: 10px; font-size: 0.88rem;">تغيير حالة المطعم العامة</button>
+                    </div>
+
+                    <!-- أزرار التشغيل والإيقاف الشاملة بالألوان المعتمدة -->
+                    <div class="admin-action-row">
+                        <button class="btn-toggle-all enable" onclick="toggleAllItems(true)">
+                            <span>✓</span> تشغيل جميع الأصناف
+                        </button>
+                        <button class="btn-toggle-all disable" onclick="toggleAllItems(false)">
+                            <span>🛑</span> إيقاف جميع الأصناف
+                        </button>
+                    </div>
+
+                    <!-- قائمة الأصناف المتحكم بها بالسويتش -->
+                    <div class="admin-items-list" id="adminItemsContainer">
+                        <!-- يتم التوليد بالديناميكية بواسطة JS -->
+                    </div>
+                </div>
+
+                <!-- تبويب سجل الطلبات -->
+                <div id="adminOrdersTab" style="display: none;">
+                    <p style="font-size: 0.88rem; font-weight: 800; color: var(--desc-text); padding: 20px 0;">لا يوجد طلبات مسجلة حالياً في الجلسة الحالية.</p>
+                </div>
+
+                <!-- تبويب تعديل كلمة المرور -->
+                <div id="adminPassTab" style="display: none;">
+                    <div class="admin-input-group">
+                        <input type="password" id="currPassInput" placeholder="كلمة المرور الحالية">
+                    </div>
+                    <div class="admin-input-group">
+                        <input type="password" id="newPassInput" placeholder="كلمة المرور الجديدة">
+                    </div>
+                    <div class="admin-input-group">
+                        <input type="password" id="confirmPassInput" placeholder="تأكيد كلمة المرور الجديدة">
+                    </div>
+                    <button class="submit-btn" style="margin-top: 10px;" onclick="changeAdminPassword()">حفظ كلمة المرور الجديدة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- مودال السلة -->
-    <div class="modal" id="cartModal" onclick="if(event.target==this) toggleCart(false)">
+    <div class="modal" id="cartModal" onclick="if(event.target===this) toggleCart(false)">
         <div class="modal-content">
             <h3 style="margin-bottom: 15px; text-align: center; color: var(--accent);">تفاصيل الطلب</h3>
             <div id="cartItemsList"></div>
@@ -374,7 +634,6 @@
                 <button type="button" class="order-type-btn" id="takeawayBtn" onclick="setOrderType('takeaway')">🛍️ تيك اواي</button>
             </div>
 
-            <!-- قائمة عناوين التوصيل التي تم تفعيل فتحها بالكامل وقدرتها على تحديث الإجمالي -->
             <div class="delivery-area-section" id="deliveryAreaBox">
                 <div class="area-select-trigger" onclick="toggleAreaDropdown()">
                     <div class="area-trigger-text">
@@ -410,14 +669,415 @@
                 <input type="tel" id="uPhone" placeholder="رقم الموبايل">
                 <input type="text" id="uAddr" placeholder="العنوان بالتفصيل (الشارع / رقم المنزل)">
             </div>
-            <button class="submit-btn" onclick="sendToWA()">إرسال الطلب عبر الواتساب</button>
+            <button class="submit-btn" onclick="sendToWA()">تأكيد الطلب وإرساله</button>
         </div>
     </div>
 
+    <!-- Firebase SDK (ES Module Integration) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyA1Sdds1f81pDtsDknTl73mfE_u5W_4TTc",
+          authDomain: "new-kfc-menu.firebaseapp.com",
+          databaseURL: "https://new-kfc-menu-default-rtdb.firebaseio.com",
+          projectId: "new-kfc-menu",
+          storageBucket: "new-kfc-menu.firebasestorage.app",
+          messagingSenderId: "306228660204",
+          appId: "1:306228660204:web:120f4c93569524242ea2c9"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        window.firebaseApp = app;
+        window.firebaseDb = db;
+
+        // --- تهيئة وقراءة بيانات إدارة المطعم من فايربيز ---
+        let currentAdminPassword = "123";
+        let isStoreOpen = true;
+        let disabledItemsMap = {};
+
+        const dbRef = ref(db);
+
+        // الاستماع المستمر لحالة المطعم وكلمة المرور والأصناف
+        onValue(ref(db, 'settings'), (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                if (data.adminPassword) currentAdminPassword = data.adminPassword;
+                if (data.isOpen !== undefined) {
+                    isStoreOpen = data.isOpen;
+                    updateStatusUI(isStoreOpen);
+                }
+                if (data.disabledItems) {
+                    disabledItemsMap = data.disabledItems;
+                } else {
+                    disabledItemsMap = {};
+                }
+                window.disabledItemsMap = disabledItemsMap;
+                if(window.renderAdminItems) window.renderAdminItems();
+                if(window.refreshMenuList) window.refreshMenuList();
+            } else {
+                set(ref(db, 'settings'), {
+                    adminPassword: "123",
+                    isOpen: true,
+                    disabledItems: {}
+                });
+            }
+        });
+
+        // الاستماع الفوري للطلبات الجديدة في قاعدة البيانات
+        let isInitialLoad = true;
+        onValue(ref(db, 'orders'), (snapshot) => {
+            if (isInitialLoad) {
+                isInitialLoad = false;
+                return;
+            }
+            if (snapshot.exists()) {
+                const orders = snapshot.val();
+                const lastKey = Object.keys(orders).pop();
+                const latestOrder = orders[lastKey];
+                
+                // التأكد أن الجهاز يعتبر صاحب مطعم لإطلاق الإشعار الصوتي والكتابي
+                if (localStorage.getItem('isRestaurantOwner') === 'true') {
+                    triggerOwnerNotification(latestOrder);
+                }
+            }
+        });
+
+        // دالة نشر طلب جديد إلى Firebase
+        window.pushOrderToFirebase = async (orderDetails) => {
+            try {
+                const newOrderRef = push(ref(db, 'orders'));
+                await set(newOrderRef, {
+                    ...orderDetails,
+                    timestamp: Date.now()
+                });
+                return true;
+            } catch(e) {
+                console.error("خطأ أثناء إرسال الطلب لقاعدة البيانات:", e);
+                return false;
+            }
+        };
+
+        window.getAdminPass = () => currentAdminPassword;
+        window.getStoreStatus = () => isStoreOpen;
+        
+        window.updateAdminPasswordInFB = async (newPass) => {
+            try {
+                await set(ref(db, 'settings/adminPassword'), newPass);
+                return true;
+            } catch(e) {
+                console.error(e);
+                return false;
+            }
+        };
+
+        window.toggleStoreStatusInFB = async () => {
+            try {
+                await set(ref(db, 'settings/isOpen'), !isStoreOpen);
+                return true;
+            } catch(e) {
+                console.error(e);
+                return false;
+            }
+        };
+
+        window.saveItemStatusToFB = async (itemName, status) => {
+            try {
+                await set(ref(db, `settings/disabledItems/${itemName}`), !status);
+                return true;
+            } catch(e) {
+                console.error(e);
+                return false;
+            }
+        };
+
+        window.toggleAllItemsInFB = async (enableAll) => {
+            try {
+                let newMap = {};
+                if (!enableAll) {
+                    window.menuData.forEach(item => {
+                        newMap[item.name.replace(/\./g, '_')] = true;
+                    });
+                }
+                await set(ref(db, 'settings/disabledItems'), newMap);
+                return true;
+            } catch(e) {
+                console.error(e);
+                return false;
+            }
+        };
+
+        function updateStatusUI(isOpen) {
+            const statusText = document.getElementById('restaurantStatusText');
+            const toggleBtn = document.getElementById('toggleStatusBtn');
+            if (statusText && toggleBtn) {
+                if (isOpen) {
+                    statusText.innerText = 'حالة المطعم الحالية: 🟢 مفتوح واستقبال الطلبات متاح';
+                    statusText.style.color = '#15803d';
+                    toggleBtn.innerText = 'إغلاق المطعم الآن 🔴';
+                    toggleBtn.style.background = '#b91c1c';
+                } else {
+                    statusText.innerText = 'حالة المطعم الحالية: 🔴 مغلق حالياً';
+                    statusText.style.color = '#b91c1c';
+                    toggleBtn.innerText = 'فتح المطعم الآن 🟢';
+                    toggleBtn.style.background = '#15803d';
+                }
+            }
+        }
+    </script>
+
     <script>
+        // --- نظام التنبيهات الصوتية والإشعارات الكتابية المتقدم لأصحاب المطعم ---
+        
+        // إعداد الصوت عبر Web Audio API للتوافق التام مع خلفيات الأجهزة
+        function playRingingSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                const now = ctx.currentTime;
+                const duration = 1.8; // مدة التنبيه ثانيتان تقريباً
+
+                // نغمتان متكررتان تشبهان جرس التنبيه Freq
+                for (let i = 0; i < 6; i++) {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(i % 2 === 0 ? 880 : 1200, now + (i * 0.28));
+
+                    gain.gain.setValueAtTime(0.3, now + (i * 0.28));
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + (i * 0.28) + 0.22);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(now + (i * 0.28));
+                    osc.stop(now + (i * 0.28) + 0.25);
+                }
+            } catch (err) {
+                console.log('عذراً، فشل تشغيل الصوت:', err);
+            }
+        }
+
+        // إرسال الإشعار الكتابي والصوتي
+        function triggerOwnerNotification(order) {
+            // 1. التنبيه الصوتي الجرس (متكرر لمدة ثانيتين)
+            playRingingSound();
+
+            // 2. إرسال الإشعار الكتابي من الموقع ذات نفسه
+            if ('Notification' in window && Notification.permission === 'granted') {
+                const title = '🍗 تم طلب أوردر جديد - نيو كنتاكي';
+                const options = {
+                    body: `العميل: ${order.customerName || 'عميل جديد'}\nالمبلغ الإجمالي: ${order.totalAmount || 0} ج.م`,
+                    icon: 'images/logokfc.png',
+                    badge: 'images/logokfc.png',
+                    tag: 'new-order-' + Date.now(),
+                    requireInteraction: true,
+                    vibrate: [200, 100, 200, 100, 200]
+                };
+
+                if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.showNotification(title, options);
+                    });
+                } else {
+                    new Notification(title, options);
+                }
+            }
+        }
+
+        // طلب إذن الإشعارات عند الدخول
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission !== 'granted') {
+                Notification.requestPermission();
+            }
+        }
+
+        // --- تسجيل Service Worker وتهيئة PWA ---
+        let deferredPrompt;
+        const banner = document.getElementById('pwa-install-banner');
+        const installBtn = document.getElementById('pwa-install-btn');
+        const bannerDesc = document.getElementById('pwa-banner-desc');
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW registration failed:', err));
+            });
+        }
+
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (!isStandalone) {
+                banner.style.display = 'flex';
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (isStandalone) {
+                banner.style.display = 'none';
+                return;
+            }
+            if (isIOS) {
+                bannerDesc.innerText = 'اضغط مشاركة ⎋ ثم "إضافة إلى الشاشة الرئيسية ➕"';
+                installBtn.innerText = 'طريقة التثبيت';
+                banner.style.display = 'flex';
+            }
+        });
+
+        function executeInstallPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        banner.style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            } else if (isIOS) {
+                alert('لتثبيت التطبيق على آيفون:\n1. اضغط على زر المشاركة (Share) أسفل الشاشة.\n2. اختر "إضافة إلى الشاشة الرئيسية" (Add to Home Screen).');
+            }
+        }
+
+        function closePWABanner() {
+            banner.style.display = 'none';
+        }
+
+        window.addEventListener('appinstalled', () => {
+            banner.style.display = 'none';
+            deferredPrompt = null;
+        });
+
+        // --- دوال إدارة المطعم المحدثة ---
+        function toggleAdminModal(show) {
+            const modal = document.getElementById('adminModal');
+            if (show) {
+                modal.style.display = 'flex';
+                // دائما يطلب الباسورد لكل المرات لزيادة الأمان
+                document.getElementById('adminPassInput').value = '';
+                document.getElementById('adminLoginView').style.display = 'block';
+                document.getElementById('adminDashboardView').style.display = 'none';
+            } else {
+                modal.style.display = 'none';
+            }
+        }
+
+        function checkAdminPassword() {
+            const enteredPass = document.getElementById('adminPassInput').value.trim();
+            const correctPass = window.getAdminPass ? window.getAdminPass() : "123";
+
+            if (enteredPass === correctPass) {
+                // حفظ اعتبار الجهاز كصاحب مطعم دائماً
+                localStorage.setItem('isRestaurantOwner', 'true');
+                requestNotificationPermission();
+
+                document.getElementById('adminLoginView').style.display = 'none';
+                document.getElementById('adminDashboardView').style.display = 'block';
+                renderAdminItems();
+            } else {
+                alert('⚠️ كلمة المرور غير صحيحة!');
+            }
+        }
+
+        function switchAdminTab(tab) {
+            document.getElementById('tabStatusBtn').classList.toggle('active', tab === 'status');
+            document.getElementById('tabOrdersBtn').classList.toggle('active', tab === 'orders');
+            document.getElementById('tabPassBtn').classList.toggle('active', tab === 'pass');
+
+            document.getElementById('adminStatusTab').style.display = tab === 'status' ? 'block' : 'none';
+            document.getElementById('adminOrdersTab').style.display = tab === 'orders' ? 'block' : 'none';
+            document.getElementById('adminPassTab').style.display = tab === 'pass' ? 'block' : 'none';
+        }
+
+        async function toggleRestaurantStatus() {
+            if (window.toggleStoreStatusInFB) {
+                const res = await window.toggleStoreStatusInFB();
+                if (res) alert('تم تحديث حالة المطعم بنجاح ✨');
+                else alert('حدث خطأ أثناء التحديث!');
+            }
+        }
+
+        function renderAdminItems() {
+            const container = document.getElementById('adminItemsContainer');
+            if (!container || !window.menuData) return;
+
+            const disabledMap = window.disabledItemsMap || {};
+
+            container.innerHTML = window.menuData.map((item, index) => {
+                const itemKey = item.name.replace(/\./g, '_');
+                const isEnabled = !disabledMap[itemKey];
+
+                return `
+                <div class="admin-item-row">
+                    <span class="admin-item-title">${item.name} (${item.category})</span>
+                    <label class="switch">
+                        <input type="checkbox" ${isEnabled ? 'checked' : ''} onchange="handleItemToggle('${itemKey}', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>`;
+            }).join('');
+        }
+        window.renderAdminItems = renderAdminItems;
+
+        async function handleItemToggle(itemKey, isChecked) {
+            if (window.saveItemStatusToFB) {
+                await window.saveItemStatusToFB(itemKey, isChecked);
+            }
+        }
+
+        async function toggleAllItems(enableAll) {
+            if (window.toggleAllItemsInFB) {
+                const res = await window.toggleAllItemsInFB(enableAll);
+                if (res) alert(enableAll ? 'تم تشغيل جميع الأصناف بنجاح ✅' : 'تم إيقاف جميع الأصناف بنجاح 🛑');
+            }
+        }
+
+        async function changeAdminPassword() {
+            const currPass = document.getElementById('currPassInput').value.trim();
+            const newPass = document.getElementById('newPassInput').value.trim();
+            const confirmPass = document.getElementById('confirmPassInput').value.trim();
+            const actualCurrPass = window.getAdminPass ? window.getAdminPass() : "123";
+
+            if (!currPass || !newPass || !confirmPass) {
+                return alert('⚠️ يرجى ملء جميع الحقول المطلوب');
+            }
+            if (currPass !== actualCurrPass) {
+                return alert('⚠️ كلمة المرور الحالية غير صحيحة!');
+            }
+            if (newPass !== confirmPass) {
+                return alert('⚠️ كلمة المرور الجديدة وتأكيدها غير متطابقين!');
+            }
+            if (newPass.length < 3) {
+                return alert('⚠️ يجب أن تكون كلمة المرور مكونة من 3 خانات على الأقل');
+            }
+
+            if (window.updateAdminPasswordInFB) {
+                const success = await window.updateAdminPasswordInFB(newPass);
+                if (success) {
+                    alert('🔒 تم تغيير كلمة المرور بنجاح!');
+                    document.getElementById('currPassInput').value = '';
+                    document.getElementById('newPassInput').value = '';
+                    document.getElementById('confirmPassInput').value = '';
+                    switchAdminTab('status');
+                } else {
+                    alert('حدث خطأ أثناء الاتصال بقاعدة البيانات!');
+                }
+            }
+        }
+
+        // --- كود تطبيق المنيو الأصلي ---
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQgLdEZD6qeZhS-DcfuWv11et-Y1iHl2ll64uMgJCZH2xwxlpveydoMqJYun718rtAGFSKhCh827XQ9/pub?output=csv';
         const IMAGES_PATH = "./images/"; 
         let menuData = [], cart = [];
+        let currentSelectedCategory = '';
         let itemsSubtotal = 0; 
         let selectedDeliveryFee = 0;
         let selectedAreaName = '';
@@ -502,6 +1162,7 @@
                     };
                 }).filter(i => i && i.name);
                 
+                window.menuData = menuData;
                 renderNav();
                 setTimeout(() => {
                     document.getElementById('splash-screen').classList.add('splash-hidden');
@@ -532,19 +1193,31 @@
         }
 
         function filterCat(cat, el) {
+            currentSelectedCategory = cat;
             if(el) { document.querySelectorAll('.cat-item').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
-            document.getElementById('menuList').innerHTML = menuData.filter(i => i.category === cat).map(item => {
+            
+            refreshMenuList();
+        }
+
+        function refreshMenuList() {
+            if (!currentSelectedCategory) return;
+            const disabledMap = window.disabledItemsMap || {};
+
+            document.getElementById('menuList').innerHTML = menuData.filter(i => i.category === currentSelectedCategory).map(item => {
+                const itemKey = item.name.replace(/\./g, '_');
+                const isDisabled = disabledMap[itemKey] === true;
+
                 let requiresFlavor = isFlavorRequired(item);
                 let hasMultipleSizes = !!(item.priceSandwich || item.priceMeal);
                 let defaultPrice = item.singlePrice || item.priceSandwich || item.priceMeal || '0';
                 let defaultSize = hasMultipleSizes ? (item.priceSandwich ? 'ساندوتش' : 'وجبة') : '';
 
                 return `
-                <div class="food-card" data-category="${item.category}" data-size="${defaultSize}" data-flavor="" data-price="${defaultPrice}" data-requires-flavor="${requiresFlavor}">
+                <div class="food-card" data-category="${item.category}" data-size="${defaultSize}" data-flavor="" data-price="${defaultPrice}" data-requires-flavor="${requiresFlavor}" style="${isDisabled ? 'opacity: 0.55; filter: grayscale(0.8);' : ''}">
                     <div class="item-img-box"><img src="${item.img}" onerror="this.src='${IMAGES_PATH}default.jpg'"></div>
                     <div class="food-info">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
-                            <span class="food-name">${item.name}</span>
+                            <span class="food-name">${item.name} ${isDisabled ? '<span style="color:#b91c1c; font-size:0.75rem;">(غير متوفر)</span>' : ''}</span>
                             <span class="food-price">${defaultPrice} ج.م</span>
                         </div>
                         ${item.desc ? `<p class="food-desc">${item.desc}</p>` : ''}
@@ -553,8 +1226,8 @@
                         <div class="flavor-box">
                             <div class="size-hint">✨ اختار النوع أولاً</div>
                             <div class="sizes-row">
-                                <button class="size-btn" onclick="selectFlavor(this, 'عادي')">عادي</button>
-                                <button class="size-btn" onclick="selectFlavor(this, 'سبايسي')">سبايسي 🔥</button>
+                                <button class="size-btn" ${isDisabled ? 'disabled' : ''} onclick="selectFlavor(this, 'عادي')">عادي</button>
+                                <button class="size-btn" ${isDisabled ? 'disabled' : ''} onclick="selectFlavor(this, 'سبايسي')">سبايسي 🔥</button>
                             </div>
                         </div>
                         ` : ''}
@@ -563,19 +1236,22 @@
                         <div class="flavor-box">
                             <div class="size-hint">✨ اختار الحجم</div>
                             <div class="sizes-row">
-                                ${item.priceSandwich ? `<button class="size-btn ${defaultSize === 'ساندوتش' ? 'active' : ''}" onclick="selectSize(this, '${item.priceSandwich}', 'ساندوتش')">ساندوتش</button>` : ''}
-                                ${item.priceMeal ? `<button class="size-btn ${defaultSize === 'وجبة' ? 'active' : ''}" onclick="selectSize(this, '${item.priceMeal}', 'وجبة')">وجبة</button>` : ''}
+                                ${item.priceSandwich ? `<button class="size-btn ${defaultSize === 'ساندوتش' ? 'active' : ''}" ${isDisabled ? 'disabled' : ''} onclick="selectSize(this, '${item.priceSandwich}', 'ساندوتش')">ساندوتش</button>` : ''}
+                                ${item.priceMeal ? `<button class="size-btn ${defaultSize === 'وجبة' ? 'active' : ''}" ${isDisabled ? 'disabled' : ''} onclick="selectSize(this, '${item.priceMeal}', 'وجبة')">وجبة</button>` : ''}
                             </div>
                         </div>
                         ` : ''}
                         
                         <div style="display: flex; justify-content: flex-end; width: 100%; margin-top: 8px;">
-                            <button class="order-btn" onclick="addToCart(event, this, '${item.name}', '${item.img}')">اطلب</button>
+                            <button class="order-btn" ${isDisabled ? 'disabled style="background:#94a3b8; cursor:not-allowed;"' : ''} onclick="addToCart(event, this, '${item.name}', '${item.img}')">
+                                ${isDisabled ? 'غير متوفر' : 'اطلب'}
+                            </button>
                         </div>
                     </div>
                 </div>`;
             }).join('');
         }
+        window.refreshMenuList = refreshMenuList;
 
         function selectFlavor(btn, flavor) {
             const container = btn.parentElement; 
@@ -595,6 +1271,11 @@
         }
 
         function addToCart(e, btn, name, img) {
+            if (window.getStoreStatus && !window.getStoreStatus()) {
+                alert('⚠️ نعتذر منكم، المطعم مغلق حالياً ولا يستقبل طلبات جديدة.');
+                return;
+            }
+
             const card = btn.closest('.food-card'); 
             const requiresFlavor = card.dataset.requiresFlavor === 'true';
             const flavor = card.dataset.flavor;
@@ -638,7 +1319,6 @@
             }, 700);
         }
 
-        /* --- التحكم الكامل في القائمة المنسدلة للقرى والتوصيل --- */
         function toggleAreaDropdown() {
             const dropdown = document.getElementById('areaDropdownBox');
             const arrow = document.getElementById('areaArrow');
@@ -706,8 +1386,30 @@
         }
 
         function removeFromCart(idx) { cart.splice(idx, 1); updateCart(); if(cart.length === 0) toggleCart(false); }
-        function toggleCart(s) { const modal = document.getElementById('cartModal'); if (s) { modal.style.display = 'flex'; history.pushState({ cartOpen: true }, ""); } else { modal.style.display = 'none'; } }
-        window.addEventListener('popstate', function () { const modal = document.getElementById('cartModal'); if (modal.style.display === 'flex') modal.style.display = 'none'; });
+        
+        function toggleCart(s) { 
+            const modal = document.getElementById('cartModal'); 
+            if (s) { 
+                modal.style.display = 'flex'; 
+                document.body.style.overflow = 'hidden';
+                history.pushState({ cartOpen: true }, ""); 
+            } else { 
+                modal.style.display = 'none'; 
+                document.body.style.overflow = 'auto';
+            } 
+        }
+
+        window.addEventListener('popstate', function () { 
+            const cartModal = document.getElementById('cartModal'); 
+            const adminModal = document.getElementById('adminModal'); 
+            if (cartModal.style.display === 'flex') {
+                cartModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            if (adminModal.style.display === 'flex') {
+                adminModal.style.display = 'none';
+            }
+        });
 
         function setOrderType(type) {
             selectedOrderType = type;
@@ -718,7 +1420,12 @@
             updateCartCalculations();
         }
 
-        function sendToWA() {
+        async function sendToWA() {
+            if (window.getStoreStatus && !window.getStoreStatus()) {
+                alert('⚠️ نعتذر منكم، المطعم مغلق حالياً ولا يستقبل طلبات جديدة.');
+                return;
+            }
+
             const n = document.getElementById('uName').value.trim();
             const p = document.getElementById('uPhone').value.trim();
             const a = document.getElementById('uAddr').value.trim();
@@ -728,6 +1435,19 @@
 
             const typeLabel = selectedOrderType === 'delivery' ? '🛵 دليفري (توصيل)' : '🛍️ تيك اواي (استلام من المحل)';
             const grandTotal = selectedOrderType === 'delivery' ? (itemsSubtotal + selectedDeliveryFee) : itemsSubtotal;
+
+            // رفع الطلب إلكترونياً للفيربيز ليتلقى أصحاب المطعم الإشعارات الفورية
+            if (window.pushOrderToFirebase) {
+                await window.pushOrderToFirebase({
+                    customerName: n,
+                    phone: p,
+                    address: a,
+                    area: selectedAreaName,
+                    orderType: typeLabel,
+                    items: cart,
+                    totalAmount: grandTotal
+                });
+            }
 
             let msg = `🍗 *طلب جديد - نيو كنتاكي وأبو شهاب السوري* 🍗\n\n`;
             msg += `👤 *الاسم:* ${n}\n`;
@@ -753,7 +1473,7 @@
             msg += `-------------------------------\n\n`;
             msg += `شكراً لاختياركم نيو كنتاكي وأبو شهاب السوري! ✨`;
 
-            window.open(`https://wa.me/201119430926?text=${encodeURIComponent(msg)}`);
+            window.open(`https://wa.me/201119430926?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         loadMenu();
