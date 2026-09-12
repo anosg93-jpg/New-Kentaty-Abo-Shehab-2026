@@ -1,4 +1,4 @@
-const CACHE_NAME = 'new-kfc-v7';
+const CACHE_NAME = 'new-kfc-v8';
 const STATIC_ASSETS = [
   './',
   './index.html',

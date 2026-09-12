@@ -471,9 +471,28 @@
         .cart-item-price { color: var(--accent); font-weight: 800; font-size: 0.85rem; display: block; }
         .remove-btn { color: #ff3b30; font-weight: 800; font-size: 0.75rem; cursor: pointer; }
 
-        .order-type-container { display: flex; background: rgba(0,0,0,0.04); padding: 6px; border-radius: 16px; margin: 15px 0; gap: 6px; }
-        .order-type-btn { flex: 1; border: none; background: transparent; padding: 12px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--desc-text); transition: all 0.3s; }
-        .order-type-btn.active { background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3); }
+        .order-type-container { 
+            display: flex; 
+            background: linear-gradient(135deg, rgba(185, 28, 28, 0.08), rgba(245, 158, 11, 0.08)); 
+            padding: 6px; 
+            border-radius: 16px; 
+            margin: 15px 0; 
+            border: 1px dashed rgba(185, 28, 28, 0.25);
+        }
+        .order-type-badge { 
+            flex: 1; 
+            background: var(--accent); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 12px; 
+            font-weight: 900; 
+            font-size: 0.95rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3); 
+        }
 
         .delivery-area-section { margin-bottom: 15px; }
         
@@ -709,9 +728,12 @@
             <h3 style="margin-bottom: 15px; text-align: center; color: var(--accent);">تفاصيل الطلب</h3>
             <div id="cartItemsList"></div>
 
+            <!-- تم تحويل نوع الطلب لدليفري فقط وتنسيقه كشارة أنيقة ومميزة -->
             <div class="order-type-container">
-                <button type="button" class="order-type-btn active" id="deliveryBtn" onclick="setOrderType('delivery')">🛵 دليفري</button>
-                <button type="button" class="order-type-btn" id="takeawayBtn" onclick="setOrderType('takeaway')">🛍️ تيك اواي</button>
+                <div class="order-type-badge">
+                    <span>🛵</span>
+                    <span>طلب توصيل (دليفري)</span>
+                </div>
             </div>
 
             <div class="delivery-area-section" id="deliveryAreaBox">
@@ -1277,9 +1299,10 @@
         let itemsSubtotal = 0; 
         let selectedDeliveryFee = 0;
         let selectedAreaName = '';
-        let selectedOrderType = 'delivery';
+        const selectedOrderType = 'delivery'; // دليفري فقط دائماً
 
         const deliveryRates = [
+            { name: "داخل المدينه", price: 10 }, { name: "الفكرية", price: 10 },
             { name: "الشيخ مبارك", price: 20 }, { name: "الحج سلمان", price: 30 }, { name: "بني عبيد", price: 45 },
             { name: "النحال", price: 55 }, { name: "صنيم", price: 75 }, { name: "عزبة الباشا", price: 20 },
             { name: "المرور", price: 30 }, { name: "جريس", price: 45 }, { name: "نزلة رومان", price: 45 },
@@ -1295,7 +1318,7 @@
             { name: "ريده", price: 80 }, { name: "بني احمد", price: 85 }, { name: "المحرص البحري", price: 45 },
             { name: "ريحانه", price: 55 }, { name: "عزبة شاهين", price: 55 }, { name: "بني موسى", price: 65 },
             { name: "الفقاعي", price: 75 }, { name: "الخياري", price: 100 }, { name: "زواية حاتم", price: 120 },
-            { name: "السلطان حسن", price: 120 }, { name: "الفلته", price: 35 }, { name: "ابوقرقاص", price: 20 },
+            { name: "السلطان حسن", price: 120 }, { name: "الفلته", price: 35 }, { name: "ابو قرقاص البلد", price: 20 },
             { name: "منهري", price: 20 }, { name: "المرسي القديمه", price: 45 }, { name: "المرسي الجديده", price: 55 },
             { name: "عزبة ابو مخلوف", price: 45 }, { name: "منشية دعبس", price: 35 }, { name: "السنبلاوين", price: 35 },
             { name: "زعفرانه", price: 35 }, { name: "الجزيره", price: 45 }, { name: "الكرم", price: 35 },
@@ -1383,7 +1406,7 @@
             const name = item.name.trim();
             const cat = item.category.trim();
             if (name === 'صوص باربيكيو') return false;
-            if (name === 'طبق ريزو' && cat === 'القطع المختارة') return true;
+            if (cat === 'وجبات البروستد' || cat === 'وجبات الاستربس' || cat === 'القطع المختارة') return true;
             if ((name === 'ثومية' || name === 'طبق ثومية' || name.includes('صوص')) && cat === 'الإضافات') return true;
             return false;
         }
@@ -1420,10 +1443,10 @@
                         
                         ${requiresFlavor ? `
                         <div class="flavor-box">
-                            <div class="size-hint">✨ اختار النوع أولاً</div>
+                            <div class="size-hint">✨ اختار النكهة أولاً (إجباري)</div>
                             <div class="sizes-row">
                                 <button class="size-btn" ${isDisabled ? 'disabled' : ''} onclick="selectFlavor(this, 'عادي')">عادي</button>
-                                <button class="size-btn" ${isDisabled ? 'disabled' : ''} onclick="selectFlavor(this, 'سبايسي')">سبايسي 🔥</button>
+                                <button class="size-btn" ${isDisabled ? 'disabled' : ''} onclick="selectFlavor(this, 'حار')">حار 🔥</button>
                             </div>
                         </div>
                         ` : ''}
@@ -1480,7 +1503,7 @@
             const category = card.dataset.category || '';
             
             if (requiresFlavor && !flavor) {
-                alert('⚠️ يرجى اختيار النوع أولاً (عادي أو سبايسي)');
+                alert('⚠️ يرجى اختيار النكهة أولاً (عادي أو حار 🔥)');
                 return;
             }
 
@@ -1569,16 +1592,10 @@
 
         function updateCartCalculations() {
             document.getElementById('subTotalAmount').innerText = `${itemsSubtotal} ج.م`;
-            
-            if (selectedOrderType === 'delivery') {
-                document.getElementById('deliveryFeeRow').style.display = 'flex';
-                document.getElementById('deliveryFeeAmount').innerText = `${selectedDeliveryFee} ج.م`;
-                const grandTotal = itemsSubtotal + selectedDeliveryFee;
-                document.getElementById('totalAmount').innerText = `${grandTotal} ج.م`;
-            } else {
-                document.getElementById('deliveryFeeRow').style.display = 'none';
-                document.getElementById('totalAmount').innerText = `${itemsSubtotal} ج.م`;
-            }
+            document.getElementById('deliveryFeeRow').style.display = 'flex';
+            document.getElementById('deliveryFeeAmount').innerText = `${selectedDeliveryFee} ج.م`;
+            const grandTotal = itemsSubtotal + selectedDeliveryFee;
+            document.getElementById('totalAmount').innerText = `${grandTotal} ج.م`;
         }
 
         function removeFromCart(idx) { cart.splice(idx, 1); updateCart(); if(cart.length === 0) toggleCart(false); }
@@ -1607,15 +1624,6 @@
             }
         });
 
-        function setOrderType(type) {
-            selectedOrderType = type;
-            document.getElementById('deliveryBtn').classList.toggle('active', type === 'delivery');
-            document.getElementById('takeawayBtn').classList.toggle('active', type === 'takeaway');
-            document.getElementById('deliveryAreaBox').style.display = type === 'delivery' ? 'block' : 'none';
-            document.getElementById('uAddr').placeholder = type === 'delivery' ? 'العنوان بالتفصيل (الشارع / رقم المنزل)' : 'ملاحظات استلام الطلب (اختياري)';
-            updateCartCalculations();
-        }
-
         async function sendToWA() {
             if (window.getStoreStatus && !window.getStoreStatus()) {
                 alert('⚠️ نعتذر منكم، المطعم مغلق حالياً ولا يستقبل طلبات جديدة.');
@@ -1627,10 +1635,10 @@
             const a = document.getElementById('uAddr').value.trim();
             
             if (!n || !p || cart.length === 0) return alert("يرجى إكمال الاسم والهاتف واختيار الأصناف");
-            if (selectedOrderType === 'delivery' && !selectedAreaName) return alert("يرجى اختيار منطقة / قرية التوصيل من القائمة أولاً");
+            if (!selectedAreaName) return alert("يرجى اختيار منطقة / قرية التوصيل من القائمة أولاً");
 
-            const typeLabel = selectedOrderType === 'delivery' ? '🛵 دليفري (توصيل)' : '🛍️ تيك اواي (استلام من المحل)';
-            const grandTotal = selectedOrderType === 'delivery' ? (itemsSubtotal + selectedDeliveryFee) : itemsSubtotal;
+            const typeLabel = '🛵 دليفري (توصيل)';
+            const grandTotal = itemsSubtotal + selectedDeliveryFee;
 
             // تسجل وتخزن فور الضغط على كلمة تأكيد الطلب إلكترونياً
             if (window.pushOrderToFirebase) {
@@ -1649,11 +1657,8 @@
             msg += `👤 *الاسم:* ${n}\n`;
             msg += `📞 *رقم الهاتف:* ${p}\n`;
             msg += `📋 *نوع الطلب:* ${typeLabel}\n`;
-            
-            if (selectedOrderType === 'delivery') {
-                msg += `📍 *منطقة التوصيل:* ${selectedAreaName}\n`;
-                if (a) msg += `🏠 *العنوان بالتفصيل:* ${a}\n`;
-            }
+            msg += `📍 *منطقة التوصيل:* ${selectedAreaName}\n`;
+            if (a) msg += `🏠 *العنوان بالتفصيل:* ${a}\n`;
 
             msg += `\n🛒 *الطلبات:* \n`;
             cart.forEach((item, i) => {
@@ -1662,9 +1667,7 @@
             
             msg += `\n\n-------------------------------\n`;
             msg += `💵 *إجمالي الأصناف:* ${itemsSubtotal} ج.م\n`;
-            if (selectedOrderType === 'delivery') {
-                msg += `🛵 *سعر التوصيل:* ${selectedDeliveryFee} ج.م\n`;
-            }
+            msg += `🛵 *سعر التوصيل:* ${selectedDeliveryFee} ج.م\n`;
             msg += `💰 *المجموع النهائي:* *${grandTotal} ج.م*\n`;
             msg += `-------------------------------\n\n`;
             msg += `شكراً لاختياركم نيو كنتاكي وأبو شهاب السوري! ✨`;
