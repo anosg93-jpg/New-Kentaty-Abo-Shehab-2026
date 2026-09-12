@@ -728,7 +728,6 @@
             <h3 style="margin-bottom: 15px; text-align: center; color: var(--accent);">تفاصيل الطلب</h3>
             <div id="cartItemsList"></div>
 
-            <!-- تم تحويل نوع الطلب لدليفري فقط وتنسيقه كشارة أنيقة ومميزة -->
             <div class="order-type-container">
                 <div class="order-type-badge">
                     <span>🛵</span>
@@ -1406,7 +1405,11 @@
             const name = item.name.trim();
             const cat = item.category.trim();
             if (name === 'صوص باربيكيو') return false;
-            if (cat === 'وجبات البروستد' || cat === 'وجبات الاستربس' || cat === 'القطع المختارة') return true;
+            
+            // التحقق من وجبات الاستربس والبروستد والقطع المختارة بجميع الصيغ
+            if (cat.includes('استربس') || cat.includes('إستربس') || cat.includes('استريبس') || cat.includes('إستريبس') || cat.includes('بروستد') || cat.includes('القطع المختارة')) {
+                return true;
+            }
             if ((name === 'ثومية' || name === 'طبق ثومية' || name.includes('صوص')) && cat === 'الإضافات') return true;
             return false;
         }
